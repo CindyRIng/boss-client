@@ -29,7 +29,6 @@
         "type": "object",
         "properties": {
           "mode": {
-            "default": "sms",
             "$ref": "#/$defs/LoginMode"
           },
           "phone": {
@@ -42,7 +41,6 @@
             "type": "object",
             "properties": {
               "mode": {
-                "default": "sms",
                 "$ref": "#/$defs/LoginMode"
               },
               "phone": {

@@ -58,7 +58,7 @@ export type QrChallenge = z.infer<typeof QrChallengeSchema>;
 
 export const LoginStartRequestSchema = z
   .object({
-    mode: LoginModeSchema.default('sms'),
+    mode: LoginModeSchema.optional(),
     phone: z.string().regex(/^1[3-9]\d{9}$/).optional(),
   })
   .meta({ id: 'LoginStartRequest' });

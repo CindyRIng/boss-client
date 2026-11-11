@@ -30,7 +30,7 @@ export const ERROR_CATALOG = {
   QUERY_EXPIRED: { http: 410, retryable: false, title: '查询过期', description: 'queryId 已过期，请重新搜索' },
   CONFLICT: { http: 409, retryable: false, title: '状态冲突', description: '当前状态不允许该操作' },
   ALREADY_RUNNING: { http: 409, retryable: false, title: '已在运行', description: '同一 profile 已有 boss-client 在运行（单实例约束）' },
-  HEADFUL_REQUIRED: { http: 409, retryable: false, title: '需要 headful 浏览器', description: '登录/验证码阶段需要可用的 DISPLAY；请设置 BOSS_HEADLESS=false 或使用 Xvfb' },
+  HEADFUL_REQUIRED: { http: 409, retryable: false, title: '需要 headful 浏览器', description: '短信登录/极验需要可用的 DISPLAY；二维码扫码可在 headless 下完成' },
   VALIDATION_FAILED: { http: 422, retryable: false, title: '校验失败', description: '请求参数 JSON Schema 校验未通过，details 内给出字段级问题' },
   RATE_LIMITED: { http: 429, retryable: true, title: '限频', description: '触发本地限频或上游限流，按 retryAfterMs 退避' },
   TIMEOUT: { http: 504, retryable: true, title: '上游超时', description: 'BOSS 页面/接口响应超时' },

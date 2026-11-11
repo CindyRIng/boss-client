@@ -89,8 +89,10 @@ boss health
 ### 2. 登录（首次/掉线人工一次）
 
 ```bash
-# 默认短信验证码：会打开 headful 浏览器；浏览器中完成极验，终端输入短信码
+# 默认按 headless 配置使用二维码（终端渲染；REST 返回 Base64）
 boss login
+# 短信：需要 headful（临时 BOSS_HEADLESS=false）
+BOSS_HEADLESS=false boss login --sms
 
 # 二维码：终端直接渲染二维码（也可 REST 返回 Base64）
 boss login --qr
@@ -99,7 +101,7 @@ boss login --qr
 boss login --relay
 ```
 
-> BOSS 的极验无法可靠自动破解；首次登录/掉线重登必须人工（浏览器或 REST 中继）一次。之后 profile 复用，实测会话约 10 天。
+> BOSS 的极验无法可靠自动破解；首次登录/掉线重登必须人工一次。headless 服务建议用 `boss login --qr`（REST 返回 Base64 二维码，用 BOSS App 扫码）；短信/极验需要 headful 或 Xvfb。之后 profile 复用，实测会话约 10 天。
 
 ### 3. 查询
 
@@ -164,7 +166,7 @@ REST 仅监听 `127.0.0.1`，必须设置非默认 `BOSS_API_TOKEN`。
 | `BOSS_PHONE` | 空 | 短信登录手机号 |
 | `BOSS_PROFILE_DIR` | `~/.boss-client/profile` | 独立浏览器 profile |
 | `BOSS_CACHE_DB` | `~/.boss-client/cache.db` | SQLite 缓存 |
-| `BOSS_HEADLESS` | `false` | 登录/验证码需 false；已有登录态可设 true |
+| `BOSS_HEADLESS` | `true` | 默认无头；二维码扫码可用；短信/极验需临时 false |
 | `BOSS_CITIES` | `101090100` | 默认城市码，逗号分隔多城市 |
 | `BOSS_PORT` | `8790` | REST 端口 |
 | `BOSS_CLIENT_URL` | 空 | 可选；设置后 CLI 通过 REST 调用常驻服务 |

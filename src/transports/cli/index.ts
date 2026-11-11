@@ -205,7 +205,8 @@ function buildProgram(): Command {
     .action(async (opts: { sms?: boolean; qr?: boolean; phone?: string; relay?: boolean }) => {
       try {
         const a = await getApp();
-        const session = await a.service.loginStart({ mode: opts.qr ? 'qr' : 'sms', ...(opts.phone ? { phone: opts.phone } : {}) });
+        const mode = opts.qr ? 'qr' : opts.sms ? 'sms' : a.config.headless ? 'qr' : 'sms';
+        const session = await a.service.loginStart({ mode, ...(opts.phone ? { phone: opts.phone } : {}) });
         if (opts.relay) {
           printJson(session);
           await closeApp();
@@ -229,7 +230,8 @@ function buildProgram(): Command {
     .action(async (opts: { sms?: boolean; qr?: boolean; phone?: string; relay?: boolean }) => {
       try {
         const a = await getApp();
-        const session = await a.service.loginStart({ mode: opts.qr ? 'qr' : 'sms', ...(opts.phone ? { phone: opts.phone } : {}) });
+        const mode = opts.qr ? 'qr' : opts.sms ? 'sms' : a.config.headless ? 'qr' : 'sms';
+        const session = await a.service.loginStart({ mode, ...(opts.phone ? { phone: opts.phone } : {}) });
         if (opts.relay) {
           printJson(session);
         } else {

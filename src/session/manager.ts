@@ -252,14 +252,11 @@ export class DefaultSessionManager implements SessionManager {
       const id = this.newLoginId();
       return {
         loginId: id,
-        mode: req.mode,
+        mode: req.mode ?? (this.cfg.headless ? 'qr' : 'sms'),
         state: 'logged_in',
         expiresAt: new Date(Date.now() + this.cfg.session.loginTimeoutSec * 1000).toISOString(),
         message: 'already logged in',
       };
-    }
-    if (this.cfg.headless) {
-      throw new BossError('HEADFUL_REQUIRED', '登录/验证码需要 headful 浏览器：请设置 BOSS_HEADLESS=false，或使用 Xvfb');
     }
     if (this.login && this.login.expiresAt > Date.now()) {
       throw new BossError('LOGIN_IN_PROGRESS', `已有登录流程进行中：${this.login.loginId}`);
@@ -267,9 +264,13 @@ export class DefaultSessionManager implements SessionManager {
     const page = this.page();
     const loginId = this.newLoginId();
     const phone = req.phone ?? this.cfg.phone;
+    const mode = req.mode ?? (this.cfg.headless ? 'qr' : 'sms');
+    if (mode === 'sms' && this.cfg.headless) {
+      throw new BossError('HEADFUL_REQUIRED', '短信登录/极验需要 headful 浏览器：请设置 BOSS_HEADLESS=false，或使用 Xvfb；二维码模式可在 headless 下使用');
+    }
     const internal: LoginInternal = {
       loginId,
-      mode: req.mode,
+      mode,
       state: 'starting',
       page,
       phase: 'send',
@@ -281,7 +282,7 @@ export class DefaultSessionManager implements SessionManager {
     try {
       await page.goto(this.cfg.loginUrl, { waitUntil: 'domcontentloaded', timeout: this.cfg.session.requestTimeoutMs }).catch(() => {});
       await sleep(4000);
-      if (req.mode === 'qr') {
+      if (mode === 'qr') {
         const qr = await extractQr(page);
         if (!qr) throw new BossError('UPSTREAM_CHANGED', '未找到二维码，可能是登录页改版');
         internal.qr = {
