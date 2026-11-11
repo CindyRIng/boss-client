@@ -37,6 +37,7 @@ export const ERROR_CATALOG = {
   UPSTREAM_BLOCKED: { http: 502, retryable: false, title: '上游风控拦截', description: 'BOSS 返回 code37 / 环境异常，进入冷却后重试' },
   UPSTREAM_CHANGED: { http: 502, retryable: false, title: '上游改版', description: 'BOSS 页面结构/接口字段变化导致解析失败' },
   UPSTREAM_UNAVAILABLE: { http: 503, retryable: true, title: '上游不可用', description: '网络异常/BOSS 服务不可达' },
+  SERVICE_UNAVAILABLE: { http: 503, retryable: true, title: '常驻服务不可达', description: '本地 boss-client REST 服务未启动或不可达' },
   NOT_IMPLEMENTED: { http: 501, retryable: false, title: '未实现', description: '该能力尚未实现' },
   CACHE_ERROR: { http: 500, retryable: false, title: '缓存错误', description: 'SQLite 读写失败' },
   INTERNAL: { http: 500, retryable: false, title: '内部错误', description: '未分类的客户端内部错误' },

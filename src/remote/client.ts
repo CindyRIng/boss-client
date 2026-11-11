@@ -45,7 +45,7 @@ export class RemoteBossClient implements BossService {
         signal: AbortSignal.timeout(this.cfg.session.requestTimeoutMs + 30_000),
       });
     } catch (err) {
-      throw new BossError('UPSTREAM_UNAVAILABLE', `无法连接 boss-client REST 服务：${this.baseUrl}（${String(err)}）`, { cause: err });
+      throw new BossError('SERVICE_UNAVAILABLE', `无法连接 boss-client 常驻服务：${this.baseUrl}（请先启动 serve，或使用 boss mcp --local）`, { cause: err });
     }
     let payload: unknown;
     try {

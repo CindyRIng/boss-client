@@ -430,13 +430,14 @@ function buildProgram(): Command {
 
   program
     .command('mcp')
-    .description('启动 MCP stdio server（默认代理到常驻 REST 服务）')
-    .option('--local', '强制本地 App（不代理；会独占浏览器 profile）')
-    .option('--proxy', '强制代理到 REST 服务（需要 BOSS_CLIENT_URL）')
+    .description('启动 MCP stdio server（默认代理到常驻 REST 服务，不打开本地浏览器）')
+    .option('--local', '强制本地 App（不代理；会独占浏览器 profile，仅开发/无服务时使用）')
+    .option('--proxy', '强制代理到 REST 服务（默认行为）')
     .option('--url <url>', 'REST 服务地址，如 http://127.0.0.1:8790')
     .action(async (opts: { local?: boolean; proxy?: boolean; url?: string }) => {
       try {
-        const mode = opts.local ? 'local' : opts.proxy ? 'remote' : 'auto';
+        // MCP 默认只代理；--local 才创建本地 App，避免和 systemd owner 抢 profile
+        const mode = opts.local ? 'local' : 'remote';
         const backend = await createBackend({ mode, ...(opts.url ? { url: opts.url } : {}) });
         const { startMcpServer } = await import('../mcp/server.js');
         await startMcpServer(backend);

@@ -27,26 +27,31 @@ export interface CreateBackendOptions {
 
 async function probeHealth(config: Config): Promise<string | null> {
   const base = `http://${config.host}:${config.port}`;
-  try {
-    const response = await fetch(`${base}/v1/health`, { signal: AbortSignal.timeout(1200) });
-    if (!response.ok) return null;
-    const payload = (await response.json()) as { ok?: boolean; data?: { service?: string } };
-    return payload.ok === true && payload.data?.service === 'boss-client' ? base : null;
-  } catch {
-    return null;
+  // health 会顺带检查登录态，服务繁忙时可能明显超过 1s；给足 8s 避免误判为“未运行”
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const response = await fetch(`${base}/v1/health`, { signal: AbortSignal.timeout(8000) });
+      if (!response.ok) continue;
+      const payload = (await response.json()) as { ok?: boolean; data?: { service?: string } };
+      if (payload.ok === true && payload.data?.service === 'boss-client') return base;
+    } catch {
+      /* retry */
+    }
   }
+  return null;
 }
 
 export async function createBackend(opts: CreateBackendOptions = {}): Promise<Backend> {
   const mode = opts.mode ?? 'auto';
   const config = loadConfig();
   const envUrl = opts.url ?? process.env.BOSS_CLIENT_URL;
+  const defaultUrl = `http://${config.host}:${config.port}`;
 
   if (mode === 'remote') {
-    if (!envUrl) throw new BossError('BAD_REQUEST', 'remote 模式需要 BOSS_CLIENT_URL 或 --url');
+    // 默认代理到本机 REST（与 systemd/daemon 同端口），不再要求显式 BOSS_CLIENT_URL
     return {
       config,
-      service: new RemoteBossClient(config, envUrl),
+      service: new RemoteBossClient(config, envUrl ?? defaultUrl),
       mode: 'remote',
       close: async () => {},
     };

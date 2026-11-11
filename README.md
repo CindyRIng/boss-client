@@ -157,7 +157,7 @@ REST 仅监听 `127.0.0.1`，必须设置非默认 `BOSS_API_TOKEN`。
 }
 ```
 
-工具清单见 `spec/mcp-tools.json`；SKILL 见 [skills/boss/SKILL.md](skills/boss/SKILL.md)。若服务未启动，MCP 工具调用返回 `UPSTREAM_UNAVAILABLE`，不会出现 `ALREADY_RUNNING`。
+工具清单见 `spec/mcp-tools.json`；SKILL 见 [skills/boss/SKILL.md](skills/boss/SKILL.md)。若服务未启动，MCP 工具调用返回 `SERVICE_UNAVAILABLE`，不会出现 `ALREADY_RUNNING`。
 
 ## 配置
 

@@ -223,6 +223,7 @@
           "UPSTREAM_BLOCKED",
           "UPSTREAM_CHANGED",
           "UPSTREAM_UNAVAILABLE",
+          "SERVICE_UNAVAILABLE",
           "NOT_IMPLEMENTED",
           "CACHE_ERROR",
           "INTERNAL"
