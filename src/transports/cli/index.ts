@@ -4,9 +4,10 @@
 import readline from 'node:readline/promises';
 import { Command } from 'commander';
 import { createApp, type App } from '../../app.js';
+import { createBackend } from '../../backend.js';
 import { loadConfig } from '../../config/schema.js';
 import { createLogger } from '../../utils/logger.js';
-import { RemoteBossClient } from './remote.js';
+import { RemoteBossClient } from '../../remote/client.js';
 import { asBossError } from '../../errors/catalog.js';
 import { failureEnvelope, successEnvelope } from '../../schemas/envelope.js';
 import type { LoginCaptchaRequest, LoginSession } from '../../domain/login.js';
@@ -429,22 +430,25 @@ function buildProgram(): Command {
 
   program
     .command('mcp')
-    .description('启动 MCP stdio server')
-    .action(async () => {
+    .description('启动 MCP stdio server（默认代理到常驻 REST 服务）')
+    .option('--local', '强制本地 App（不代理；会独占浏览器 profile）')
+    .option('--proxy', '强制代理到 REST 服务（需要 BOSS_CLIENT_URL）')
+    .option('--url <url>', 'REST 服务地址，如 http://127.0.0.1:8790')
+    .action(async (opts: { local?: boolean; proxy?: boolean; url?: string }) => {
       try {
-        const a = await createApp();
+        const mode = opts.local ? 'local' : opts.proxy ? 'remote' : 'auto';
+        const backend = await createBackend({ mode, ...(opts.url ? { url: opts.url } : {}) });
         const { startMcpServer } = await import('../mcp/server.js');
-        await startMcpServer(a);
-        const shutdown = () => {
-          void closeApp();
+        await startMcpServer(backend);
+        const shutdown = async () => {
+          await backend.close().catch(() => {});
           process.exit(0);
         };
-        process.once('SIGINT', shutdown);
-        process.once('SIGTERM', shutdown);
+        process.once('SIGINT', () => void shutdown());
+        process.once('SIGTERM', () => void shutdown());
         await new Promise(() => {});
       } catch (err) {
         printError(err);
-        await closeApp();
       }
     });
 

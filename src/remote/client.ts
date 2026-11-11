@@ -1,21 +1,24 @@
 /**
- * CLI 远程模式：当 BOSS_CLIENT_URL 指向已运行的 REST 服务时，CLI 通过 HTTP 调用，
+ * 远程客户端：当 BOSS_CLIENT_URL 指向已运行的 REST 服务时，CLI/MCP 通过 HTTP 调用，
  * 避免与 systemd 常驻进程争抢同一 profile 锁。
  */
-import type { Config } from '../../config/schema.js';
-import type { BossService } from '../../service.js';
-import type { LoginCaptchaRequest, LoginSession, LoginStartRequest } from '../../domain/login.js';
-import type { SearchJobsRequest } from '../../domain/search.js';
-import type { JobDetail } from '../../domain/job.js';
-import { BossError, type ErrorCode } from '../../errors/catalog.js';
+import type { Config } from '../config/schema.js';
+import type { BossService } from '../service.js';
+import type { LoginCaptchaRequest, LoginSession, LoginStartRequest } from '../domain/login.js';
+import type { SearchJobsRequest } from '../domain/search.js';
+import type { JobDetail } from '../domain/job.js';
+import { BossError, type ErrorCode } from '../errors/catalog.js';
 
 type Query = Record<string, string | number | boolean | undefined>;
 
 export class RemoteBossClient implements BossService {
   private readonly baseUrl: string;
 
-  constructor(private readonly cfg: Config) {
-    const url = process.env.BOSS_CLIENT_URL;
+  constructor(
+    private readonly cfg: Config,
+    baseUrl?: string,
+  ) {
+    const url = baseUrl ?? process.env.BOSS_CLIENT_URL;
     if (!url) throw new BossError('BAD_REQUEST', 'BOSS_CLIENT_URL 未设置');
     this.baseUrl = url.replace(/\/+$/, '');
   }

@@ -10,6 +10,10 @@
 - 需要公司工商信息（USCC/法人/注册资本/经营范围）和公司在招职位。
 - 需要结构化 JSON 给下游 CRM/表格/agent 继续处理。
 
+## MCP 代理
+
+MCP 客户端请配置 `BOSS_CLIENT_URL=http://127.0.0.1:8790` 和 `BOSS_API_TOKEN`；`boss mcp` 会代理到常驻服务，不自己开浏览器。不要用 `--local` 与常驻服务抢 profile。
+
 ## 前置
 
 - 本机已安装并构建 `boss-client`，`boss` 命令可用（或使用 MCP 工具）。

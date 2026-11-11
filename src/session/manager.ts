@@ -62,6 +62,7 @@ export interface SessionManager {
   loginSms(loginId: string, code: string): Promise<LoginSession>;
   loginCancel(loginId: string): Promise<{ loginId: string; state: 'cancelled' }>;
   requestStats(): BossRequestStats;
+  snapshot(): { loggedIn: boolean; health: HealthValue; browserConnected: boolean };
 }
 
 export class DefaultSessionManager implements SessionManager {
@@ -158,6 +159,12 @@ export class DefaultSessionManager implements SessionManager {
 
   requestStats(): BossRequestStats {
     return this.api?.stats() ?? { requests: 0, code37Count: 0 };
+  }
+
+  snapshot(): { loggedIn: boolean; health: HealthValue; browserConnected: boolean } {
+    const browserConnected = this.isRunning();
+    const loggedIn = browserConnected && (this.state === 'ok' || this.state === 'degraded' || this.state === 'cooldown');
+    return { loggedIn, health: this.state, browserConnected };
   }
 
   async isLoggedIn(): Promise<boolean> {

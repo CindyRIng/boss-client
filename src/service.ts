@@ -117,6 +117,7 @@ export class DefaultBossService implements BossService {
   }
 
   async health(): Promise<HealthResponse> {
+    const snap = this.session.snapshot();
     return {
       ok: true,
       service: 'boss-client',
@@ -124,11 +125,11 @@ export class DefaultBossService implements BossService {
       uptimeSec: Math.floor((Date.now() - this.startedAt) / 1000),
       schemaVersion: SCHEMA_VERSION,
       browser: {
-        connected: this.session.isRunning(),
+        connected: snap.browserConnected,
         headless: this.cfg.headless,
         profileDir: this.cfg.profileDir,
       },
-      login: { loggedIn: await this.session.isLoggedIn().catch(() => false), health: (await this.session.status().catch(() => ({ health: 'stopped' as HealthValue }))).health },
+      login: { loggedIn: snap.loggedIn, health: snap.health },
       cache: { dbPath: this.cfg.cache.dbPath, ready: true },
       ts: new Date().toISOString(),
     };

@@ -9,7 +9,7 @@ import { getOperation, mcpTools } from '../../api/operations.js';
 import { invoke, type InvocationInput } from '../../api/dispatch.js';
 import { asBossError } from '../../errors/catalog.js';
 import { failureEnvelope, successEnvelope } from '../../schemas/envelope.js';
-import type { App } from '../../app.js';
+import type { Backend } from '../../backend.js';
 import { toJsonSchema } from '../../generators/json-schema.js';
 
 const TOOL_MAP = new Map(mcpTools().map((t) => [t.name, t]));
@@ -49,7 +49,7 @@ function argsToInvocation(operationId: string, args: Record<string, unknown>): I
   }
 }
 
-export function createMcpServer(app: App): Server {
+export function createMcpServer(backend: Backend): Server {
   const server = new Server({ name: 'boss-client', version: '0.1.0' }, { capabilities: { tools: {} } });
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: mcpTools().map((t) => ({ name: t.name, description: t.description, inputSchema: toJsonSchema(t.input) })),
@@ -68,7 +68,7 @@ export function createMcpServer(app: App): Server {
       const parsed = tool.input.safeParse(request.params.arguments ?? {});
       if (!parsed.success) throw parsed.error;
       getOperation(tool.operationId);
-      const result = await invoke(app.service, tool.operationId, argsToInvocation(tool.operationId, parsed.data as Record<string, unknown>));
+      const result = await invoke(backend.service, tool.operationId, argsToInvocation(tool.operationId, parsed.data as Record<string, unknown>));
       const envelope = successEnvelope(result.data, {
         requestId: rid,
         tookMs: Date.now() - started,
@@ -87,9 +87,9 @@ export function createMcpServer(app: App): Server {
   return server;
 }
 
-export async function startMcpServer(app: App): Promise<void> {
-  const server = createMcpServer(app);
+export async function startMcpServer(backend: Backend): Promise<void> {
+  const server = createMcpServer(backend);
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error('[mcp] boss-client MCP server started (stdio)');
+  console.error(`[mcp] boss-client MCP server started (stdio, backend=${backend.mode})`);
 }

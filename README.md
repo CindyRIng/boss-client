@@ -140,19 +140,24 @@ REST 仅监听 `127.0.0.1`，必须设置非默认 `BOSS_API_TOKEN`。
 
 ## MCP
 
+**MCP 进程不持有浏览器**：默认代理到常驻 REST 服务（`BOSS_CLIENT_URL`，或自动探测本机 `127.0.0.1:<BOSS_PORT>`），避免与 systemd 服务争抢 `~/.boss-client/profile`。只有显式 `boss mcp --local` 才会创建本地 App。
+
 ```json
 {
   "mcpServers": {
     "boss-client": {
       "command": "/path/to/boss-client/bin/boss-run",
       "args": ["mcp"],
-      "env": { "BOSS_API_TOKEN": "change-me" }
+      "env": {
+        "BOSS_CLIENT_URL": "http://127.0.0.1:8790",
+        "BOSS_API_TOKEN": "change-me"
+      }
     }
   }
 }
 ```
 
-工具清单见 `spec/mcp-tools.json`；SKILL 见 [skills/boss/SKILL.md](skills/boss/SKILL.md)。
+工具清单见 `spec/mcp-tools.json`；SKILL 见 [skills/boss/SKILL.md](skills/boss/SKILL.md)。若服务未启动，MCP 工具调用返回 `UPSTREAM_UNAVAILABLE`，不会出现 `ALREADY_RUNNING`。
 
 ## 配置
 
@@ -169,7 +174,7 @@ REST 仅监听 `127.0.0.1`，必须设置非默认 `BOSS_API_TOKEN`。
 | `BOSS_HEADLESS` | `true` | 默认无头；二维码扫码可用；短信/极验需临时 false |
 | `BOSS_CITIES` | `101090100` | 默认城市码，逗号分隔多城市 |
 | `BOSS_PORT` | `8790` | REST 端口 |
-| `BOSS_CLIENT_URL` | 空 | 可选；设置后 CLI 通过 REST 调用常驻服务 |
+| `BOSS_CLIENT_URL` | 空 | 可选；CLI/MCP 通过 REST 调用常驻服务 |
 | `BOSS_RATE_PER_MIN` | `12` | 上游限频 |
 | `BOSS_MAX_PAGES` | `5` | 单任务最多页数 |
 
