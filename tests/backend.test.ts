@@ -51,10 +51,19 @@ describe('remote backend', () => {
     await backend.close();
   });
 
-  it('BossError is used for unreachable service', async () => {
+  it('remote mode falls back to the configured local URL when BOSS_CLIENT_URL is empty', async () => {
+    vi.stubEnv('BOSS_CLIENT_URL', '');
+    vi.stubEnv('BOSS_PORT', '1');
+    const backend = await createBackend({ mode: 'remote' });
+    expect(backend.mode).toBe('remote');
+    await backend.close();
+  });
+
+  it('maps unreachable service to SERVICE_UNAVAILABLE', async () => {
     vi.stubEnv('BOSS_CLIENT_URL', 'http://127.0.0.1:1');
     vi.stubEnv('BOSS_API_TOKEN', 'test-token');
     const client = new RemoteBossClient(loadConfig(), 'http://127.0.0.1:1');
+    await expect(client.status()).rejects.toMatchObject({ code: 'SERVICE_UNAVAILABLE' });
     await expect(client.status()).rejects.toBeInstanceOf(BossError);
   });
 });

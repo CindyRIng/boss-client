@@ -140,7 +140,7 @@ REST 仅监听 `127.0.0.1`，必须设置非默认 `BOSS_API_TOKEN`。
 
 ## MCP
 
-**MCP 进程不持有浏览器**：默认代理到常驻 REST 服务（`BOSS_CLIENT_URL`，或自动探测本机 `127.0.0.1:<BOSS_PORT>`），避免与 systemd 服务争抢 `~/.boss-client/profile`。只有显式 `boss mcp --local` 才会创建本地 App。
+**MCP 进程不持有浏览器**：默认代理到常驻 REST 服务（`BOSS_CLIENT_URL`，缺省 `http://127.0.0.1:<BOSS_PORT>`），避免与 systemd 服务争抢 `~/.boss-client/profile`。只有显式 `boss mcp --local` 才会创建本地 App。
 
 ```json
 {
@@ -157,7 +157,7 @@ REST 仅监听 `127.0.0.1`，必须设置非默认 `BOSS_API_TOKEN`。
 }
 ```
 
-工具清单见 `spec/mcp-tools.json`；SKILL 见 [skills/boss/SKILL.md](skills/boss/SKILL.md)。若服务未启动，MCP 工具调用返回 `SERVICE_UNAVAILABLE`，不会出现 `ALREADY_RUNNING`。
+工具清单见 `spec/mcp-tools.json`；SKILL 见 [skills/boss/SKILL.md](skills/boss/SKILL.md)。若服务未启动，MCP 工具调用返回 `SERVICE_UNAVAILABLE`，不会出现 `ALREADY_RUNNING`；先用 `systemctl --user start boss-client`。
 
 ## 配置
 
