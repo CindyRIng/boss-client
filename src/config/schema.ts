@@ -102,7 +102,7 @@ export function loadConfig(opts: LoadConfigOptions = {}): Config {
     headless: bool(env, 'BOSS_HEADLESS', false),
     apiToken: str(env, 'BOSS_API_TOKEN', 'change-me'),
     host: str(env, 'BOSS_HOST', '127.0.0.1'),
-    port: int(env, 'BOSS_PORT', 8788, 1),
+    port: int(env, 'BOSS_PORT', 8790, 1),
     cache: {
       dbPath: expandHome(str(env, 'BOSS_CACHE_DB', path.join(dataDir, 'cache.db'))),
       queryTtlSec: int(env, 'BOSS_CACHE_QUERY_TTL', 86400),

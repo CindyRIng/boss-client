@@ -103,7 +103,7 @@ function buildOpenApi(): unknown {
   return {
     openapi: '3.1.0',
     info: { title: 'boss-client API', version: '0.1.0', description: 'BOSS直聘本地只读客户端 REST API' },
-    servers: [{ url: 'http://127.0.0.1:8788' }],
+    servers: [{ url: 'http://127.0.0.1:8790' }],
     components: { securitySchemes: { bearerAuth: { type: 'http', scheme: 'bearer' } } },
     paths,
   };

@@ -9,7 +9,7 @@ Type=simple
 WorkingDirectory=%h/boss-client
 EnvironmentFile=-%h/boss-client/.env
 Environment=BOSS_LOG_STDOUT=true
-ExecStart=%h/boss-client/bin/boss-run serve --port 8788
+ExecStart=%h/boss-client/bin/boss-run serve --port 8790
 Restart=always
 RestartSec=5
 LimitNOFILE=65536

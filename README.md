@@ -36,7 +36,7 @@ flowchart TB
     CB["cloak browser session<br/>headful 登录 / 可选 headless 只读<br/>独立 profile"]
     LC[("SQLite 结构化缓存<br/>queries / jobs / details / companies")]
     CAP["能力层"]
-    IF["CLI · REST(127.0.0.1:8788) · MCP stdio"]
+    IF["CLI · REST(127.0.0.1:8790) · MCP stdio"]
     SK["SKILL"]
     CB <--> LC
     CAP --> IF
@@ -118,21 +118,23 @@ boss companies jobs --id 'd6c15290231e61e21Hd70965EFY~'
 ## REST
 
 ```bash
-boss serve --port 8788
+boss serve --port 8790
 # 文档
-curl http://127.0.0.1:8788/docs
-curl http://127.0.0.1:8788/openapi.json
+curl http://127.0.0.1:8790/docs
+curl http://127.0.0.1:8790/openapi.json
 
 # 鉴权（除 /v1/health）
-curl -H "Authorization: Bearer $BOSS_API_TOKEN" http://127.0.0.1:8788/v1/status
+curl -H "Authorization: Bearer $BOSS_API_TOKEN" http://127.0.0.1:8790/v1/status
 
 # 搜索
-curl -X POST http://127.0.0.1:8788/v1/search/jobs \
+curl -X POST http://127.0.0.1:8790/v1/search/jobs \
   -H "Authorization: Bearer $BOSS_API_TOKEN" -H "content-type: application/json" \
   -d '{"keyword":"外贸","cityCode":"101090100","page":1,"pageSize":15,"pages":1}'
 ```
 
 REST 仅监听 `127.0.0.1`，必须设置非默认 `BOSS_API_TOKEN`。
+
+> 常驻服务运行时，CLI 设置 `BOSS_CLIENT_URL=http://127.0.0.1:8790` 会通过 REST 调用，避免与服务的 profile 单实例锁冲突。
 
 ## MCP
 
@@ -164,7 +166,8 @@ REST 仅监听 `127.0.0.1`，必须设置非默认 `BOSS_API_TOKEN`。
 | `BOSS_CACHE_DB` | `~/.boss-client/cache.db` | SQLite 缓存 |
 | `BOSS_HEADLESS` | `false` | 登录/验证码需 false；已有登录态可设 true |
 | `BOSS_CITIES` | `101090100` | 默认城市码，逗号分隔多城市 |
-| `BOSS_PORT` | `8788` | REST 端口 |
+| `BOSS_PORT` | `8790` | REST 端口 |
+| `BOSS_CLIENT_URL` | 空 | 可选；设置后 CLI 通过 REST 调用常驻服务 |
 | `BOSS_RATE_PER_MIN` | `12` | 上游限频 |
 | `BOSS_MAX_PAGES` | `5` | 单任务最多页数 |
 

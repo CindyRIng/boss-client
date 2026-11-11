@@ -5,7 +5,7 @@ describe('config', () => {
   it('loads defaults', () => {
     const cfg = loadConfig({ env: {} });
     expect(cfg.baseUrl).toBe('https://www.zhipin.com');
-    expect(cfg.port).toBe(8788);
+    expect(cfg.port).toBe(8790);
     expect(cfg.host).toBe('127.0.0.1');
     expect(cfg.headless).toBe(false);
     expect(cfg.session.maxPages).toBe(5);

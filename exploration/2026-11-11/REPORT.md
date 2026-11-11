@@ -263,7 +263,7 @@ encryptExpectId=
 7. **缓存 TTL 建议**：岗位列表 1–6h（招聘信息变化快）、岗位详情 6–24h、公司详情 7d（工商信息稳定）、公司全部职位 6h；`cached` 标记；只做结构化缓存（用户已定），不做 raw 证据链。
 8. **多城市**：cityCode 注册表 + 配置默认城市列表；v1 不做薪资/经验/学历等筛选。
 9. **风控**：单实例、单并发、页间延迟、单任务页数上限、code37 冷却；headless 可用于登录后的只读操作，登录/验证码需 headful。
-10. **接口形态**：与 tanji-client 同构（CLI + REST 127.0.0.1 + Bearer + MCP stdio + SKILL + 统一 envelope）；`boss` 命令；端口待定 8788。
+10. **接口形态**：与 tanji-client 同构（CLI + REST 127.0.0.1 + Bearer + MCP stdio + SKILL + 统一 envelope）；`boss` 命令；端口 8790。
 
 ---
 

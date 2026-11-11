@@ -4,6 +4,9 @@
 import readline from 'node:readline/promises';
 import { Command } from 'commander';
 import { createApp, type App } from '../../app.js';
+import { loadConfig } from '../../config/schema.js';
+import { createLogger } from '../../utils/logger.js';
+import { RemoteBossClient } from './remote.js';
 import { asBossError } from '../../errors/catalog.js';
 import { failureEnvelope, successEnvelope } from '../../schemas/envelope.js';
 import type { LoginCaptchaRequest, LoginSession } from '../../domain/login.js';
@@ -13,7 +16,21 @@ const VERSION = '0.1.0';
 let app: App | null = null;
 
 async function getApp(): Promise<App> {
-  if (!app) app = await createApp();
+  if (!app) {
+    if (process.env.BOSS_CLIENT_URL) {
+      const config = loadConfig();
+      app = {
+        config,
+        service: new RemoteBossClient(config),
+        cache: {} as never,
+        session: {} as never,
+        logger: createLogger({ level: 'error', stdout: false }),
+        close: async () => {},
+      };
+    } else {
+      app = await createApp();
+    }
+  }
   return app;
 }
 
@@ -383,11 +400,11 @@ function buildProgram(): Command {
   program
     .command('serve')
     .description('启动本地 REST 服务')
-    .option('--port <port>', '端口', '8788')
+    .option('--port <port>', '端口', '8790')
     .option('--host <host>', '监听地址', '127.0.0.1')
     .action(async (opts: { port: string; host: string }) => {
       try {
-        const a = await getApp();
+        const a = await createApp();
         const { createRestServer } = await import('../rest/server.js');
         const server = createRestServer(a);
         await new Promise<void>((resolve) => {
@@ -413,7 +430,7 @@ function buildProgram(): Command {
     .description('启动 MCP stdio server')
     .action(async () => {
       try {
-        const a = await getApp();
+        const a = await createApp();
         const { startMcpServer } = await import('../mcp/server.js');
         await startMcpServer(a);
         const shutdown = () => {
