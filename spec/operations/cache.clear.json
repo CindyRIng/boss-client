@@ -1,0 +1,135 @@
+{
+  "operationId": "cache.clear",
+  "summary": "清缓存",
+  "auth": "bearer",
+  "rest": {
+    "method": "DELETE",
+    "path": "/v1/cache",
+    "query": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "scope": {
+            "def": {
+              "type": "default",
+              "innerType": {
+                "def": {
+                  "type": "enum",
+                  "entries": {
+                    "all": "all",
+                    "expired": "expired"
+                  }
+                },
+                "type": "enum",
+                "enum": {
+                  "all": "all",
+                  "expired": "expired"
+                },
+                "options": [
+                  "all",
+                  "expired"
+                ]
+              },
+              "defaultValue": "all"
+            },
+            "type": "default"
+          },
+          "prefix": {
+            "def": {
+              "type": "optional",
+              "innerType": {
+                "def": {
+                  "type": "string"
+                },
+                "type": "string"
+              }
+            },
+            "type": "optional"
+          }
+        }
+      },
+      "type": "object"
+    }
+  },
+  "cli": {
+    "command": "cache clear",
+    "description": "清缓存",
+    "example": "boss cache clear --all"
+  },
+  "mcp": {
+    "name": "boss_cache_clear",
+    "description": "清缓存：scope=all|expired"
+  },
+  "input": {
+    "type": "object",
+    "properties": {
+      "scope": {
+        "default": "all",
+        "type": "string",
+        "enum": [
+          "all",
+          "expired"
+        ]
+      },
+      "prefix": {
+        "type": "string"
+      }
+    },
+    "$defs": {
+      "CacheClearQuery": {
+        "type": "object",
+        "properties": {
+          "scope": {
+            "default": "all",
+            "type": "string",
+            "enum": [
+              "all",
+              "expired"
+            ]
+          },
+          "prefix": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "deleted": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "dbPath": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "deleted",
+      "dbPath"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "CacheClearResult": {
+        "type": "object",
+        "properties": {
+          "deleted": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "dbPath": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "deleted",
+          "dbPath"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

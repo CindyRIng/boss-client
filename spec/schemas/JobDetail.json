@@ -1,0 +1,233 @@
+{
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "$ref": "#/$defs/JobId"
+    },
+    "securityId": {
+      "$ref": "#/$defs/SecurityId"
+    },
+    "title": {
+      "type": "string"
+    },
+    "salaryText": {
+      "default": "",
+      "type": "string"
+    },
+    "experience": {
+      "default": "",
+      "type": "string"
+    },
+    "degree": {
+      "default": "",
+      "type": "string"
+    },
+    "cityName": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "description": {
+      "default": "",
+      "type": "string"
+    },
+    "skills": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "jobStatusDesc": {
+      "type": "string"
+    },
+    "recruiter": {
+      "default": {},
+      "$ref": "#/$defs/Recruiter"
+    },
+    "company": {
+      "default": {},
+      "$ref": "#/$defs/JobCompany"
+    },
+    "jobUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "fetchedAt": {
+      "$ref": "#/$defs/IsoDateTime"
+    }
+  },
+  "required": [
+    "jobId",
+    "title",
+    "salaryText",
+    "experience",
+    "degree",
+    "description",
+    "skills",
+    "recruiter",
+    "company",
+    "jobUrl",
+    "fetchedAt"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "JobDetail": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "$ref": "#/$defs/JobId"
+        },
+        "securityId": {
+          "$ref": "#/$defs/SecurityId"
+        },
+        "title": {
+          "type": "string"
+        },
+        "salaryText": {
+          "default": "",
+          "type": "string"
+        },
+        "experience": {
+          "default": "",
+          "type": "string"
+        },
+        "degree": {
+          "default": "",
+          "type": "string"
+        },
+        "cityName": {
+          "type": "string"
+        },
+        "district": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "description": {
+          "default": "",
+          "type": "string"
+        },
+        "skills": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "jobStatusDesc": {
+          "type": "string"
+        },
+        "recruiter": {
+          "default": {},
+          "$ref": "#/$defs/Recruiter"
+        },
+        "company": {
+          "default": {},
+          "$ref": "#/$defs/JobCompany"
+        },
+        "jobUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "fetchedAt": {
+          "$ref": "#/$defs/IsoDateTime"
+        }
+      },
+      "required": [
+        "jobId",
+        "title",
+        "salaryText",
+        "experience",
+        "degree",
+        "description",
+        "skills",
+        "recruiter",
+        "company",
+        "jobUrl",
+        "fetchedAt"
+      ],
+      "additionalProperties": false
+    },
+    "JobId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{8,80}$",
+      "description": "encryptJobId，用于 /job_detail/<id>.html"
+    },
+    "SecurityId": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 4096,
+      "description": "岗位详情 API 的 securityId（短时效）"
+    },
+    "Recruiter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "online": {
+          "type": "boolean"
+        },
+        "avatar": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "JobCompany": {
+      "type": "object",
+      "properties": {
+        "companyId": {
+          "$ref": "#/$defs/CompanyId"
+        },
+        "name": {
+          "type": "string"
+        },
+        "industry": {
+          "type": "string"
+        },
+        "scale": {
+          "type": "string"
+        },
+        "stage": {
+          "type": "string"
+        },
+        "logo": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CompanyId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_~.-]{4,160}$",
+      "description": "encryptBrandId，用于 /gongsi/<id>.html"
+    },
+    "IsoDateTime": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?(?:Z|[+-]\\d{2}:\\d{2})$",
+      "description": "ISO-8601 日期时间（含时区）"
+    }
+  }
+}

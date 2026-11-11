@@ -1,0 +1,94 @@
+{
+  "operationId": "session.login.cancel",
+  "summary": "取消登录流程",
+  "auth": "bearer",
+  "rest": {
+    "method": "DELETE",
+    "path": "/v1/session/login/{loginId}",
+    "pathParams": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "loginId": {
+            "def": {
+              "type": "string",
+              "checks": [
+                {}
+              ]
+            },
+            "type": "string"
+          }
+        }
+      },
+      "type": "object"
+    }
+  },
+  "cli": {
+    "command": "login cancel",
+    "description": "取消登录流程",
+    "example": "boss login cancel login_xxx"
+  },
+  "mcp": {
+    "name": "boss_login_cancel",
+    "description": "取消登录流程"
+  },
+  "input": {
+    "type": "object",
+    "properties": {
+      "loginId": {
+        "$ref": "#/$defs/LoginId"
+      }
+    },
+    "required": [
+      "loginId"
+    ],
+    "$defs": {
+      "LoginId": {
+        "type": "string",
+        "pattern": "^login_[A-Za-z0-9_-]{8,64}$",
+        "description": "登录流程 ID"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "loginId": {
+        "$ref": "#/$defs/LoginId"
+      },
+      "state": {
+        "type": "string",
+        "const": "cancelled"
+      }
+    },
+    "required": [
+      "loginId",
+      "state"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "LoginCancelResponse": {
+        "type": "object",
+        "properties": {
+          "loginId": {
+            "$ref": "#/$defs/LoginId"
+          },
+          "state": {
+            "type": "string",
+            "const": "cancelled"
+          }
+        },
+        "required": [
+          "loginId",
+          "state"
+        ],
+        "additionalProperties": false
+      },
+      "LoginId": {
+        "type": "string",
+        "pattern": "^login_[A-Za-z0-9_-]{8,64}$",
+        "description": "登录流程 ID"
+      }
+    }
+  }
+}

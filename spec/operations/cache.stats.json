@@ -1,0 +1,211 @@
+{
+  "operationId": "cache.stats",
+  "summary": "缓存统计",
+  "auth": "bearer",
+  "rest": {
+    "method": "GET",
+    "path": "/v1/cache/stats"
+  },
+  "cli": {
+    "command": "cache stats",
+    "description": "缓存统计",
+    "example": "boss cache stats"
+  },
+  "mcp": {
+    "name": "boss_cache_stats",
+    "description": "缓存统计"
+  },
+  "input": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "dbPath": {
+        "type": "string"
+      },
+      "driver": {
+        "type": "string",
+        "enum": [
+          "sqlite",
+          "memory"
+        ]
+      },
+      "sizeBytes": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "entries": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "jobs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "jobDetails": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "companies": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "companyDetails": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "companyJobs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "queries",
+          "jobs",
+          "jobDetails",
+          "companies",
+          "companyDetails",
+          "companyJobs"
+        ],
+        "additionalProperties": false
+      },
+      "hits": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "misses": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "hitRate": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "oldestAt": {
+        "type": "string"
+      },
+      "newestAt": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "dbPath",
+      "driver",
+      "entries",
+      "hits",
+      "misses"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "CacheStats": {
+        "type": "object",
+        "properties": {
+          "dbPath": {
+            "type": "string"
+          },
+          "driver": {
+            "type": "string",
+            "enum": [
+              "sqlite",
+              "memory"
+            ]
+          },
+          "sizeBytes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "entries": {
+            "type": "object",
+            "properties": {
+              "queries": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "jobs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "jobDetails": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "companies": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "companyDetails": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "companyJobs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "queries",
+              "jobs",
+              "jobDetails",
+              "companies",
+              "companyDetails",
+              "companyJobs"
+            ],
+            "additionalProperties": false
+          },
+          "hits": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "misses": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "hitRate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "oldestAt": {
+            "type": "string"
+          },
+          "newestAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "dbPath",
+          "driver",
+          "entries",
+          "hits",
+          "misses"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

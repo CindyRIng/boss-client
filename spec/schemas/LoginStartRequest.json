@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "mode": {
+      "default": "sms",
+      "$ref": "#/$defs/LoginMode"
+    },
+    "phone": {
+      "type": "string",
+      "pattern": "^1[3-9]\\d{9}$"
+    }
+  },
+  "required": [
+    "mode"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "LoginStartRequest": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "default": "sms",
+          "$ref": "#/$defs/LoginMode"
+        },
+        "phone": {
+          "type": "string",
+          "pattern": "^1[3-9]\\d{9}$"
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "additionalProperties": false
+    },
+    "LoginMode": {
+      "type": "string",
+      "enum": [
+        "sms",
+        "qr"
+      ]
+    }
+  }
+}

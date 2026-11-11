@@ -1,0 +1,298 @@
+{
+  "operationId": "cities.list",
+  "summary": "城市注册表",
+  "auth": "bearer",
+  "rest": {
+    "method": "GET",
+    "path": "/v1/cities",
+    "query": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "refresh": {
+            "def": {
+              "type": "optional",
+              "innerType": {
+                "def": {
+                  "type": "default",
+                  "innerType": {
+                    "def": {
+                      "type": "pipe",
+                      "in": {
+                        "def": {
+                          "type": "union",
+                          "options": [
+                            {
+                              "def": {
+                                "type": "boolean"
+                              },
+                              "type": "boolean"
+                            },
+                            {
+                              "def": {
+                                "type": "enum",
+                                "entries": {
+                                  "true": "true",
+                                  "false": "false"
+                                }
+                              },
+                              "type": "enum",
+                              "enum": {
+                                "true": "true",
+                                "false": "false"
+                              },
+                              "options": [
+                                "true",
+                                "false"
+                              ]
+                            }
+                          ]
+                        },
+                        "type": "union",
+                        "options": [
+                          {
+                            "def": {
+                              "type": "boolean"
+                            },
+                            "type": "boolean"
+                          },
+                          {
+                            "def": {
+                              "type": "enum",
+                              "entries": {
+                                "true": "true",
+                                "false": "false"
+                              }
+                            },
+                            "type": "enum",
+                            "enum": {
+                              "true": "true",
+                              "false": "false"
+                            },
+                            "options": [
+                              "true",
+                              "false"
+                            ]
+                          }
+                        ]
+                      },
+                      "out": {
+                        "def": {
+                          "type": "transform"
+                        },
+                        "type": "transform"
+                      }
+                    },
+                    "type": "pipe",
+                    "in": {
+                      "def": {
+                        "type": "union",
+                        "options": [
+                          {
+                            "def": {
+                              "type": "boolean"
+                            },
+                            "type": "boolean"
+                          },
+                          {
+                            "def": {
+                              "type": "enum",
+                              "entries": {
+                                "true": "true",
+                                "false": "false"
+                              }
+                            },
+                            "type": "enum",
+                            "enum": {
+                              "true": "true",
+                              "false": "false"
+                            },
+                            "options": [
+                              "true",
+                              "false"
+                            ]
+                          }
+                        ]
+                      },
+                      "type": "union",
+                      "options": [
+                        {
+                          "def": {
+                            "type": "boolean"
+                          },
+                          "type": "boolean"
+                        },
+                        {
+                          "def": {
+                            "type": "enum",
+                            "entries": {
+                              "true": "true",
+                              "false": "false"
+                            }
+                          },
+                          "type": "enum",
+                          "enum": {
+                            "true": "true",
+                            "false": "false"
+                          },
+                          "options": [
+                            "true",
+                            "false"
+                          ]
+                        }
+                      ]
+                    },
+                    "out": {
+                      "def": {
+                        "type": "transform"
+                      },
+                      "type": "transform"
+                    }
+                  },
+                  "defaultValue": false
+                },
+                "type": "default"
+              }
+            },
+            "type": "optional"
+          }
+        }
+      },
+      "type": "object"
+    }
+  },
+  "cli": {
+    "command": "cities list",
+    "description": "城市注册表",
+    "example": "boss cities list --refresh"
+  },
+  "mcp": {
+    "name": "boss_cities",
+    "description": "城市注册表"
+  },
+  "input": {
+    "type": "object",
+    "properties": {
+      "refresh": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "true",
+              "false"
+            ]
+          }
+        ]
+      }
+    },
+    "$defs": {
+      "CitiesQuery": {
+        "type": "object",
+        "properties": {
+          "refresh": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "cities": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "cityCode": {
+              "$ref": "#/$defs/CityCode"
+            },
+            "cityName": {
+              "type": "string"
+            },
+            "province": {
+              "type": "string"
+            },
+            "isDefault": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "cityCode",
+            "cityName",
+            "isDefault"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "updatedAt": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "cities",
+      "updatedAt"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "CitiesResponse": {
+        "type": "object",
+        "properties": {
+          "cities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cityCode": {
+                  "$ref": "#/$defs/CityCode"
+                },
+                "cityName": {
+                  "type": "string"
+                },
+                "province": {
+                  "type": "string"
+                },
+                "isDefault": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "cityCode",
+                "cityName",
+                "isDefault"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "cities",
+          "updatedAt"
+        ],
+        "additionalProperties": false
+      },
+      "CityCode": {
+        "type": "string",
+        "pattern": "^\\d{6,12}$",
+        "description": "BOSS 数字城市码，如 101090100（石家庄）"
+      }
+    }
+  }
+}

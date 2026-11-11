@@ -1,0 +1,254 @@
+{
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "$ref": "#/$defs/JobId"
+    },
+    "securityId": {
+      "description": "短时效令牌；日志中截断。jobs.detail 优先用 jobId",
+      "$ref": "#/$defs/SecurityId"
+    },
+    "lid": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "salaryText": {
+      "default": "",
+      "type": "string"
+    },
+    "salaryMin": {
+      "type": "number",
+      "minimum": 0
+    },
+    "salaryMax": {
+      "type": "number",
+      "minimum": 0
+    },
+    "experience": {
+      "default": "",
+      "type": "string"
+    },
+    "degree": {
+      "default": "",
+      "type": "string"
+    },
+    "cityCode": {
+      "$ref": "#/$defs/CityCode"
+    },
+    "cityName": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "businessDistrict": {
+      "type": "string"
+    },
+    "companyId": {
+      "$ref": "#/$defs/CompanyId"
+    },
+    "companyName": {
+      "type": "string"
+    },
+    "companyIndustry": {
+      "type": "string"
+    },
+    "companyScale": {
+      "type": "string"
+    },
+    "companyStage": {
+      "type": "string"
+    },
+    "bossName": {
+      "type": "string"
+    },
+    "bossTitle": {
+      "type": "string"
+    },
+    "bossOnline": {
+      "type": "boolean"
+    },
+    "skills": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "welfare": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "jobUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "firstSeenAt": {
+      "$ref": "#/$defs/IsoDateTime"
+    },
+    "lastSeenAt": {
+      "$ref": "#/$defs/IsoDateTime"
+    }
+  },
+  "required": [
+    "jobId",
+    "title",
+    "salaryText",
+    "experience",
+    "degree",
+    "companyId",
+    "companyName",
+    "skills",
+    "welfare",
+    "jobUrl",
+    "firstSeenAt",
+    "lastSeenAt"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "JobSummary": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "$ref": "#/$defs/JobId"
+        },
+        "securityId": {
+          "description": "短时效令牌；日志中截断。jobs.detail 优先用 jobId",
+          "$ref": "#/$defs/SecurityId"
+        },
+        "lid": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "salaryText": {
+          "default": "",
+          "type": "string"
+        },
+        "salaryMin": {
+          "type": "number",
+          "minimum": 0
+        },
+        "salaryMax": {
+          "type": "number",
+          "minimum": 0
+        },
+        "experience": {
+          "default": "",
+          "type": "string"
+        },
+        "degree": {
+          "default": "",
+          "type": "string"
+        },
+        "cityCode": {
+          "$ref": "#/$defs/CityCode"
+        },
+        "cityName": {
+          "type": "string"
+        },
+        "district": {
+          "type": "string"
+        },
+        "businessDistrict": {
+          "type": "string"
+        },
+        "companyId": {
+          "$ref": "#/$defs/CompanyId"
+        },
+        "companyName": {
+          "type": "string"
+        },
+        "companyIndustry": {
+          "type": "string"
+        },
+        "companyScale": {
+          "type": "string"
+        },
+        "companyStage": {
+          "type": "string"
+        },
+        "bossName": {
+          "type": "string"
+        },
+        "bossTitle": {
+          "type": "string"
+        },
+        "bossOnline": {
+          "type": "boolean"
+        },
+        "skills": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "welfare": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "jobUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "firstSeenAt": {
+          "$ref": "#/$defs/IsoDateTime"
+        },
+        "lastSeenAt": {
+          "$ref": "#/$defs/IsoDateTime"
+        }
+      },
+      "required": [
+        "jobId",
+        "title",
+        "salaryText",
+        "experience",
+        "degree",
+        "companyId",
+        "companyName",
+        "skills",
+        "welfare",
+        "jobUrl",
+        "firstSeenAt",
+        "lastSeenAt"
+      ],
+      "additionalProperties": false
+    },
+    "JobId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{8,80}$",
+      "description": "encryptJobId，用于 /job_detail/<id>.html"
+    },
+    "SecurityId": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 4096,
+      "description": "岗位详情 API 的 securityId（短时效）"
+    },
+    "CityCode": {
+      "type": "string",
+      "pattern": "^\\d{6,12}$",
+      "description": "BOSS 数字城市码，如 101090100（石家庄）"
+    },
+    "CompanyId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_~.-]{4,160}$",
+      "description": "encryptBrandId，用于 /gongsi/<id>.html"
+    },
+    "IsoDateTime": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?(?:Z|[+-]\\d{2}:\\d{2})$",
+      "description": "ISO-8601 日期时间（含时区）"
+    }
+  }
+}

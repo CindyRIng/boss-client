@@ -1,0 +1,91 @@
+{
+  "type": "object",
+  "properties": {
+    "keyword": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cityCode": {
+      "$ref": "#/$defs/CityCode"
+    },
+    "page": {
+      "default": 1,
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "pageSize": {
+      "default": 15,
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "pages": {
+      "default": 1,
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "refresh": {
+      "default": false,
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "keyword",
+    "page",
+    "pageSize",
+    "pages",
+    "refresh"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "SearchJobsRequest": {
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cityCode": {
+          "$ref": "#/$defs/CityCode"
+        },
+        "page": {
+          "default": 1,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "pageSize": {
+          "default": 15,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "pages": {
+          "default": 1,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "refresh": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "keyword",
+        "page",
+        "pageSize",
+        "pages",
+        "refresh"
+      ],
+      "additionalProperties": false
+    },
+    "CityCode": {
+      "type": "string",
+      "pattern": "^\\d{6,12}$",
+      "description": "BOSS 数字城市码，如 101090100（石家庄）"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+[Unit]
+Description=boss-client (BOSS直聘 local read-only client)
+Documentation=https://github.com/CindyRIng/boss-client
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/boss-client
+EnvironmentFile=-%h/boss-client/.env
+Environment=BOSS_LOG_STDOUT=true
+ExecStart=%h/boss-client/bin/boss-run serve --port 8788
+Restart=always
+RestartSec=5
+LimitNOFILE=65536
+
+# 无桌面服务器：用 Xvfb 提供虚拟 DISPLAY（登录/验证码需要 headful）
+# Environment=DISPLAY=:99
+# ExecStartPre=/usr/bin/Xvfb :99 -screen 0 1440x900x24
+
+[Install]
+WantedBy=default.target

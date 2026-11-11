@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# 通过共享 cloak-env 的 FHS 环境运行 boss-client
+# （供 systemd / 全局 boss 命令调用；CLOAK_ENV 可覆盖）
+set -euo pipefail
+SELF="$(readlink -f "${BASH_SOURCE[0]}")"
+ROOT="$(cd "$(dirname "$SELF")/.." && pwd)"
+CLOAK_ENV="${CLOAK_ENV:-$HOME/cloak-env}"
+cd "$ROOT"
+if [ -x "$CLOAK_ENV/bin/cloak-run" ]; then
+  exec "$CLOAK_ENV/bin/cloak-run" node dist/main.js "$@"
+fi
+# 没有 cloak-env 时直接运行（仅适合 health/docs 等不需要浏览器的命令）
+exec node dist/main.js "$@"

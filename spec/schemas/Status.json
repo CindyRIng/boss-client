@@ -1,0 +1,360 @@
+{
+  "type": "object",
+  "properties": {
+    "loggedIn": {
+      "type": "boolean"
+    },
+    "health": {
+      "$ref": "#/$defs/HealthValue"
+    },
+    "account": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "phoneMasked": {
+          "type": "string"
+        },
+        "nameMasked": {
+          "type": "string"
+        },
+        "isHunter": {
+          "type": "boolean"
+        },
+        "userIdTail": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "session": {
+      "type": "object",
+      "properties": {
+        "profileDir": {
+          "type": "string"
+        },
+        "startedAt": {
+          "$ref": "#/$defs/IsoDateTime"
+        },
+        "lastCheckedAt": {
+          "$ref": "#/$defs/IsoDateTime"
+        },
+        "expiresAt": {
+          "$ref": "#/$defs/IsoDateTime"
+        },
+        "remainingSec": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "profileDir"
+      ],
+      "additionalProperties": false
+    },
+    "risk": {
+      "default": {
+        "code37Count": 0
+      },
+      "type": "object",
+      "properties": {
+        "cooldownUntil": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/IsoDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "code37Count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "lastError": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "code37Count"
+      ],
+      "additionalProperties": false
+    },
+    "requests": {
+      "default": {
+        "today": 0,
+        "cacheHits": 0,
+        "cacheMisses": 0
+      },
+      "type": "object",
+      "properties": {
+        "today": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "cacheHits": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "cacheMisses": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "lastUpstreamAt": {
+          "$ref": "#/$defs/IsoDateTime"
+        }
+      },
+      "required": [
+        "today",
+        "cacheHits",
+        "cacheMisses"
+      ],
+      "additionalProperties": false
+    },
+    "cache": {
+      "type": "object",
+      "properties": {
+        "dbPath": {
+          "type": "string"
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "entries": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "required": [
+        "dbPath",
+        "entries"
+      ],
+      "additionalProperties": false
+    },
+    "warnings": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "loggedIn",
+    "health",
+    "account",
+    "risk",
+    "requests",
+    "warnings"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "Status": {
+      "type": "object",
+      "properties": {
+        "loggedIn": {
+          "type": "boolean"
+        },
+        "health": {
+          "$ref": "#/$defs/HealthValue"
+        },
+        "account": {
+          "default": {},
+          "type": "object",
+          "properties": {
+            "phoneMasked": {
+              "type": "string"
+            },
+            "nameMasked": {
+              "type": "string"
+            },
+            "isHunter": {
+              "type": "boolean"
+            },
+            "userIdTail": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "session": {
+          "type": "object",
+          "properties": {
+            "profileDir": {
+              "type": "string"
+            },
+            "startedAt": {
+              "$ref": "#/$defs/IsoDateTime"
+            },
+            "lastCheckedAt": {
+              "$ref": "#/$defs/IsoDateTime"
+            },
+            "expiresAt": {
+              "$ref": "#/$defs/IsoDateTime"
+            },
+            "remainingSec": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "profileDir"
+          ],
+          "additionalProperties": false
+        },
+        "risk": {
+          "default": {
+            "code37Count": 0
+          },
+          "type": "object",
+          "properties": {
+            "cooldownUntil": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/IsoDateTime"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "code37Count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "lastError": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "code37Count"
+          ],
+          "additionalProperties": false
+        },
+        "requests": {
+          "default": {
+            "today": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0
+          },
+          "type": "object",
+          "properties": {
+            "today": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "cacheHits": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "cacheMisses": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "lastUpstreamAt": {
+              "$ref": "#/$defs/IsoDateTime"
+            }
+          },
+          "required": [
+            "today",
+            "cacheHits",
+            "cacheMisses"
+          ],
+          "additionalProperties": false
+        },
+        "cache": {
+          "type": "object",
+          "properties": {
+            "dbPath": {
+              "type": "string"
+            },
+            "sizeBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "entries": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            }
+          },
+          "required": [
+            "dbPath",
+            "entries"
+          ],
+          "additionalProperties": false
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "loggedIn",
+        "health",
+        "account",
+        "risk",
+        "requests",
+        "warnings"
+      ],
+      "additionalProperties": false
+    },
+    "HealthValue": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "degraded",
+        "needs_human",
+        "cooldown",
+        "logged_out",
+        "stopped"
+      ]
+    },
+    "IsoDateTime": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?(?:Z|[+-]\\d{2}:\\d{2})$",
+      "description": "ISO-8601 日期时间（含时区）"
+    }
+  }
+}

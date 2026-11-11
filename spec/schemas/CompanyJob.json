@@ -1,0 +1,113 @@
+{
+  "type": "object",
+  "properties": {
+    "jobId": {
+      "$ref": "#/$defs/JobId"
+    },
+    "securityId": {
+      "$ref": "#/$defs/SecurityId"
+    },
+    "title": {
+      "type": "string"
+    },
+    "salaryText": {
+      "default": "",
+      "type": "string"
+    },
+    "experience": {
+      "type": "string"
+    },
+    "degree": {
+      "type": "string"
+    },
+    "cityName": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "businessDistrict": {
+      "type": "string"
+    },
+    "recruiterName": {
+      "type": "string"
+    },
+    "recruiterTitle": {
+      "type": "string"
+    },
+    "jobUrl": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "jobId",
+    "title",
+    "salaryText",
+    "jobUrl"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "CompanyJob": {
+      "type": "object",
+      "properties": {
+        "jobId": {
+          "$ref": "#/$defs/JobId"
+        },
+        "securityId": {
+          "$ref": "#/$defs/SecurityId"
+        },
+        "title": {
+          "type": "string"
+        },
+        "salaryText": {
+          "default": "",
+          "type": "string"
+        },
+        "experience": {
+          "type": "string"
+        },
+        "degree": {
+          "type": "string"
+        },
+        "cityName": {
+          "type": "string"
+        },
+        "district": {
+          "type": "string"
+        },
+        "businessDistrict": {
+          "type": "string"
+        },
+        "recruiterName": {
+          "type": "string"
+        },
+        "recruiterTitle": {
+          "type": "string"
+        },
+        "jobUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "jobId",
+        "title",
+        "salaryText",
+        "jobUrl"
+      ],
+      "additionalProperties": false
+    },
+    "JobId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{8,80}$",
+      "description": "encryptJobId，用于 /job_detail/<id>.html"
+    },
+    "SecurityId": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 4096,
+      "description": "岗位详情 API 的 securityId（短时效）"
+    }
+  }
+}

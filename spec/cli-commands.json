@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0",
+  "commands": [
+    {
+      "command": "boss health",
+      "description": "健康检查",
+      "example": "boss health",
+      "operationId": "health.get"
+    },
+    {
+      "command": "boss status",
+      "description": "查看登录态、会话剩余时间、风控冷却、缓存",
+      "example": "boss status",
+      "operationId": "status.get"
+    },
+    {
+      "command": "boss login start",
+      "description": "开始登录（默认短信；--qr 扫码）",
+      "example": "boss login start --sms",
+      "operationId": "session.login.start"
+    },
+    {
+      "command": "boss login status",
+      "description": "查询 loginId 状态",
+      "example": "boss login status login_xxx",
+      "operationId": "session.login.get"
+    },
+    {
+      "command": "boss login captcha",
+      "description": "提交验证码答案",
+      "example": "boss login captcha login_xxx --points 0.68,0.62 0.17,0.54",
+      "operationId": "session.login.captcha"
+    },
+    {
+      "command": "boss login sms",
+      "description": "提交短信验证码",
+      "example": "boss login sms login_xxx --code 123456",
+      "operationId": "session.login.sms"
+    },
+    {
+      "command": "boss login cancel",
+      "description": "取消登录流程",
+      "example": "boss login cancel login_xxx",
+      "operationId": "session.login.cancel"
+    },
+    {
+      "command": "boss search jobs",
+      "description": "岗位搜索",
+      "example": "boss search jobs --keyword 外贸 --city 101090100",
+      "operationId": "search.jobs"
+    },
+    {
+      "command": "boss jobs list",
+      "description": "按 queryId 翻页",
+      "example": "boss jobs list --query-id q_20261111_ab12cd --page 2",
+      "operationId": "jobs.list"
+    },
+    {
+      "command": "boss jobs detail",
+      "description": "岗位详情",
+      "example": "boss jobs detail --job-id 9b48...",
+      "operationId": "jobs.detail"
+    },
+    {
+      "command": "boss companies list",
+      "description": "去重公司列表",
+      "example": "boss companies list --query-id q_20261111_ab12cd",
+      "operationId": "companies.list"
+    },
+    {
+      "command": "boss companies detail",
+      "description": "公司详情（含工商信息）",
+      "example": "boss companies detail --id d6c1...",
+      "operationId": "companies.detail"
+    },
+    {
+      "command": "boss companies jobs",
+      "description": "公司全部在招职位",
+      "example": "boss companies jobs --id d6c1...",
+      "operationId": "companies.jobs"
+    },
+    {
+      "command": "boss cities list",
+      "description": "城市注册表",
+      "example": "boss cities list --refresh",
+      "operationId": "cities.list"
+    },
+    {
+      "command": "boss cache stats",
+      "description": "缓存统计",
+      "example": "boss cache stats",
+      "operationId": "cache.stats"
+    },
+    {
+      "command": "boss cache clear",
+      "description": "清缓存",
+      "example": "boss cache clear --all",
+      "operationId": "cache.clear"
+    }
+  ]
+}

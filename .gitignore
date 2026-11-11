@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+spec/.tmp/
+exploration/**/artifacts/
+exploration/**/node_modules/
+exploration/**/profile/
+.DS_Store
+
+exploration/node_modules

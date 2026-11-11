@@ -1,0 +1,657 @@
+{
+  "operationId": "session.login.captcha",
+  "summary": "提交极验答案（点击坐标/滑块偏移）",
+  "auth": "bearer",
+  "rest": {
+    "method": "POST",
+    "path": "/v1/session/login/{loginId}/captcha",
+    "pathParams": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "loginId": {
+            "def": {
+              "type": "string",
+              "checks": [
+                {}
+              ]
+            },
+            "type": "string"
+          }
+        }
+      },
+      "type": "object"
+    },
+    "body": {
+      "def": {
+        "type": "union",
+        "options": [
+          {
+            "def": {
+              "type": "object",
+              "shape": {
+                "kind": {
+                  "def": {
+                    "type": "literal",
+                    "values": [
+                      "click"
+                    ]
+                  },
+                  "type": "literal",
+                  "values": {}
+                },
+                "points": {
+                  "def": {
+                    "type": "array",
+                    "element": {
+                      "def": {
+                        "type": "object",
+                        "shape": {
+                          "x": {
+                            "def": {
+                              "type": "number",
+                              "checks": [
+                                {},
+                                {}
+                              ]
+                            },
+                            "type": "number",
+                            "isFinite": true
+                          },
+                          "y": {
+                            "def": {
+                              "type": "number",
+                              "checks": [
+                                {},
+                                {}
+                              ]
+                            },
+                            "type": "number",
+                            "isFinite": true
+                          }
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "checks": [
+                      {},
+                      {}
+                    ]
+                  },
+                  "type": "array",
+                  "element": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "x": {
+                          "def": {
+                            "type": "number",
+                            "checks": [
+                              {},
+                              {}
+                            ]
+                          },
+                          "type": "number",
+                          "isFinite": true
+                        },
+                        "y": {
+                          "def": {
+                            "type": "number",
+                            "checks": [
+                              {},
+                              {}
+                            ]
+                          },
+                          "type": "number",
+                          "isFinite": true
+                        }
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "type": "object"
+          },
+          {
+            "def": {
+              "type": "object",
+              "shape": {
+                "kind": {
+                  "def": {
+                    "type": "literal",
+                    "values": [
+                      "slider"
+                    ]
+                  },
+                  "type": "literal",
+                  "values": {}
+                },
+                "offsetRatio": {
+                  "def": {
+                    "type": "optional",
+                    "innerType": {
+                      "def": {
+                        "type": "number",
+                        "checks": [
+                          {},
+                          {}
+                        ]
+                      },
+                      "type": "number",
+                      "isFinite": true
+                    }
+                  },
+                  "type": "optional"
+                },
+                "offsetPx": {
+                  "def": {
+                    "type": "optional",
+                    "innerType": {
+                      "def": {
+                        "type": "number",
+                        "checks": [
+                          {}
+                        ]
+                      },
+                      "type": "number",
+                      "isFinite": true
+                    }
+                  },
+                  "type": "optional"
+                }
+              }
+            },
+            "type": "object"
+          }
+        ],
+        "discriminator": "kind",
+        "inclusive": false
+      },
+      "type": "union",
+      "options": [
+        {
+          "def": {
+            "type": "object",
+            "shape": {
+              "kind": {
+                "def": {
+                  "type": "literal",
+                  "values": [
+                    "click"
+                  ]
+                },
+                "type": "literal",
+                "values": {}
+              },
+              "points": {
+                "def": {
+                  "type": "array",
+                  "element": {
+                    "def": {
+                      "type": "object",
+                      "shape": {
+                        "x": {
+                          "def": {
+                            "type": "number",
+                            "checks": [
+                              {},
+                              {}
+                            ]
+                          },
+                          "type": "number",
+                          "isFinite": true
+                        },
+                        "y": {
+                          "def": {
+                            "type": "number",
+                            "checks": [
+                              {},
+                              {}
+                            ]
+                          },
+                          "type": "number",
+                          "isFinite": true
+                        }
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "checks": [
+                    {},
+                    {}
+                  ]
+                },
+                "type": "array",
+                "element": {
+                  "def": {
+                    "type": "object",
+                    "shape": {
+                      "x": {
+                        "def": {
+                          "type": "number",
+                          "checks": [
+                            {},
+                            {}
+                          ]
+                        },
+                        "type": "number",
+                        "isFinite": true
+                      },
+                      "y": {
+                        "def": {
+                          "type": "number",
+                          "checks": [
+                            {},
+                            {}
+                          ]
+                        },
+                        "type": "number",
+                        "isFinite": true
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "type": "object"
+        },
+        {
+          "def": {
+            "type": "object",
+            "shape": {
+              "kind": {
+                "def": {
+                  "type": "literal",
+                  "values": [
+                    "slider"
+                  ]
+                },
+                "type": "literal",
+                "values": {}
+              },
+              "offsetRatio": {
+                "def": {
+                  "type": "optional",
+                  "innerType": {
+                    "def": {
+                      "type": "number",
+                      "checks": [
+                        {},
+                        {}
+                      ]
+                    },
+                    "type": "number",
+                    "isFinite": true
+                  }
+                },
+                "type": "optional"
+              },
+              "offsetPx": {
+                "def": {
+                  "type": "optional",
+                  "innerType": {
+                    "def": {
+                      "type": "number",
+                      "checks": [
+                        {}
+                      ]
+                    },
+                    "type": "number",
+                    "isFinite": true
+                  }
+                },
+                "type": "optional"
+              }
+            }
+          },
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "cli": {
+    "command": "login captcha",
+    "description": "提交验证码答案",
+    "example": "boss login captcha login_xxx --points 0.68,0.62 0.17,0.54"
+  },
+  "mcp": {
+    "name": "boss_login_captcha_solve",
+    "description": "提交极验点击坐标或滑块偏移"
+  },
+  "input": {
+    "type": "object",
+    "properties": {
+      "loginId": {
+        "$ref": "#/$defs/LoginId"
+      },
+      "kind": {
+        "type": "string",
+        "enum": [
+          "click",
+          "slider"
+        ]
+      },
+      "points": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "y": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        }
+      },
+      "offsetRatio": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "offsetPx": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "required": [
+      "loginId",
+      "kind"
+    ],
+    "$defs": {
+      "LoginCaptchaInput": {
+        "type": "object",
+        "properties": {
+          "loginId": {
+            "$ref": "#/$defs/LoginId"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "click",
+              "slider"
+            ]
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "y": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ]
+            }
+          },
+          "offsetRatio": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "offsetPx": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "loginId",
+          "kind"
+        ]
+      },
+      "LoginId": {
+        "type": "string",
+        "pattern": "^login_[A-Za-z0-9_-]{8,64}$",
+        "description": "登录流程 ID"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "loginId": {
+        "$ref": "#/$defs/LoginId"
+      },
+      "mode": {
+        "$ref": "#/$defs/LoginMode"
+      },
+      "state": {
+        "$ref": "#/$defs/LoginState"
+      },
+      "phoneMasked": {
+        "type": "string"
+      },
+      "qr": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/QrChallenge"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "captcha": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/CaptchaChallenge"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "expiresAt": {
+        "$ref": "#/$defs/IsoDateTime"
+      },
+      "message": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "loginId",
+      "mode",
+      "state",
+      "expiresAt"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "LoginSession": {
+        "type": "object",
+        "properties": {
+          "loginId": {
+            "$ref": "#/$defs/LoginId"
+          },
+          "mode": {
+            "$ref": "#/$defs/LoginMode"
+          },
+          "state": {
+            "$ref": "#/$defs/LoginState"
+          },
+          "phoneMasked": {
+            "type": "string"
+          },
+          "qr": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/QrChallenge"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "captcha": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CaptchaChallenge"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expiresAt": {
+            "$ref": "#/$defs/IsoDateTime"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "loginId",
+          "mode",
+          "state",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "LoginId": {
+        "type": "string",
+        "pattern": "^login_[A-Za-z0-9_-]{8,64}$",
+        "description": "登录流程 ID"
+      },
+      "LoginMode": {
+        "type": "string",
+        "enum": [
+          "sms",
+          "qr"
+        ]
+      },
+      "LoginState": {
+        "type": "string",
+        "enum": [
+          "starting",
+          "awaiting_scan",
+          "awaiting_captcha",
+          "awaiting_sms_code",
+          "logged_in",
+          "failed",
+          "expired",
+          "cancelled"
+        ]
+      },
+      "QrChallenge": {
+        "type": "object",
+        "properties": {
+          "pngBase64": {
+            "type": "string"
+          },
+          "image": {
+            "type": "object",
+            "properties": {
+              "width": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "height": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "width",
+              "height"
+            ],
+            "additionalProperties": false
+          },
+          "expiresAt": {
+            "$ref": "#/$defs/IsoDateTime"
+          }
+        },
+        "required": [
+          "pngBase64",
+          "image",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "IsoDateTime": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?(?:Z|[+-]\\d{2}:\\d{2})$",
+        "description": "ISO-8601 日期时间（含时区）"
+      },
+      "CaptchaChallenge": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "click",
+              "slider"
+            ]
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "image": {
+            "type": "object",
+            "properties": {
+              "width": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "height": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "width",
+              "height"
+            ],
+            "additionalProperties": false
+          },
+          "mainBase64": {
+            "description": "主图 PNG base64（click/slider）",
+            "type": "string"
+          },
+          "tipBase64": {
+            "description": "提示图 PNG base64（click）",
+            "type": "string"
+          },
+          "screenshotBase64": {
+            "description": "完整面板截图 base64",
+            "type": "string"
+          },
+          "expiresAt": {
+            "$ref": "#/$defs/IsoDateTime"
+          }
+        },
+        "required": [
+          "kind",
+          "image",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

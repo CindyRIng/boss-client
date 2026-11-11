@@ -1,0 +1,83 @@
+{
+  "oneOf": [
+    {
+      "$ref": "#/$defs/LoginClickPoints"
+    },
+    {
+      "$ref": "#/$defs/LoginSlider"
+    }
+  ],
+  "$defs": {
+    "LoginCaptchaRequest": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/LoginClickPoints"
+        },
+        {
+          "$ref": "#/$defs/LoginSlider"
+        }
+      ]
+    },
+    "LoginClickPoints": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "click"
+        },
+        "points": {
+          "minItems": 1,
+          "maxItems": 6,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "points"
+      ],
+      "additionalProperties": false
+    },
+    "LoginSlider": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "slider"
+        },
+        "offsetRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "offsetPx": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

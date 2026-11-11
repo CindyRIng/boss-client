@@ -1,0 +1,637 @@
+{
+  "operationId": "companies.list",
+  "summary": "岗位结果按公司去重",
+  "auth": "bearer",
+  "rest": {
+    "method": "GET",
+    "path": "/v1/companies",
+    "query": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "queryId": {
+            "def": {
+              "type": "string"
+            },
+            "type": "string"
+          },
+          "page": {
+            "def": {
+              "type": "default",
+              "innerType": {
+                "def": {
+                  "type": "number",
+                  "coerce": true,
+                  "checks": [
+                    {
+                      "def": {
+                        "type": "number",
+                        "check": "number_format",
+                        "abort": false,
+                        "format": "safeint"
+                      },
+                      "type": "number",
+                      "isFinite": true
+                    },
+                    {}
+                  ]
+                },
+                "type": "number",
+                "isFinite": true
+              },
+              "defaultValue": 1
+            },
+            "type": "default"
+          },
+          "pageSize": {
+            "def": {
+              "type": "default",
+              "innerType": {
+                "def": {
+                  "type": "number",
+                  "coerce": true,
+                  "checks": [
+                    {
+                      "def": {
+                        "type": "number",
+                        "check": "number_format",
+                        "abort": false,
+                        "format": "safeint"
+                      },
+                      "type": "number",
+                      "isFinite": true
+                    },
+                    {},
+                    {}
+                  ]
+                },
+                "type": "number",
+                "isFinite": true
+              },
+              "defaultValue": 20
+            },
+            "type": "default"
+          },
+          "fetchPages": {
+            "def": {
+              "type": "default",
+              "innerType": {
+                "def": {
+                  "type": "number",
+                  "coerce": true,
+                  "checks": [
+                    {
+                      "def": {
+                        "type": "number",
+                        "check": "number_format",
+                        "abort": false,
+                        "format": "safeint"
+                      },
+                      "type": "number",
+                      "isFinite": true
+                    },
+                    {},
+                    {}
+                  ]
+                },
+                "type": "number",
+                "isFinite": true
+              },
+              "defaultValue": 0
+            },
+            "type": "default"
+          },
+          "refresh": {
+            "def": {
+              "type": "default",
+              "innerType": {
+                "def": {
+                  "type": "pipe",
+                  "in": {
+                    "def": {
+                      "type": "union",
+                      "options": [
+                        {
+                          "def": {
+                            "type": "boolean"
+                          },
+                          "type": "boolean"
+                        },
+                        {
+                          "def": {
+                            "type": "enum",
+                            "entries": {
+                              "true": "true",
+                              "false": "false"
+                            }
+                          },
+                          "type": "enum",
+                          "enum": {
+                            "true": "true",
+                            "false": "false"
+                          },
+                          "options": [
+                            "true",
+                            "false"
+                          ]
+                        }
+                      ]
+                    },
+                    "type": "union",
+                    "options": [
+                      {
+                        "def": {
+                          "type": "boolean"
+                        },
+                        "type": "boolean"
+                      },
+                      {
+                        "def": {
+                          "type": "enum",
+                          "entries": {
+                            "true": "true",
+                            "false": "false"
+                          }
+                        },
+                        "type": "enum",
+                        "enum": {
+                          "true": "true",
+                          "false": "false"
+                        },
+                        "options": [
+                          "true",
+                          "false"
+                        ]
+                      }
+                    ]
+                  },
+                  "out": {
+                    "def": {
+                      "type": "transform"
+                    },
+                    "type": "transform"
+                  }
+                },
+                "type": "pipe",
+                "in": {
+                  "def": {
+                    "type": "union",
+                    "options": [
+                      {
+                        "def": {
+                          "type": "boolean"
+                        },
+                        "type": "boolean"
+                      },
+                      {
+                        "def": {
+                          "type": "enum",
+                          "entries": {
+                            "true": "true",
+                            "false": "false"
+                          }
+                        },
+                        "type": "enum",
+                        "enum": {
+                          "true": "true",
+                          "false": "false"
+                        },
+                        "options": [
+                          "true",
+                          "false"
+                        ]
+                      }
+                    ]
+                  },
+                  "type": "union",
+                  "options": [
+                    {
+                      "def": {
+                        "type": "boolean"
+                      },
+                      "type": "boolean"
+                    },
+                    {
+                      "def": {
+                        "type": "enum",
+                        "entries": {
+                          "true": "true",
+                          "false": "false"
+                        }
+                      },
+                      "type": "enum",
+                      "enum": {
+                        "true": "true",
+                        "false": "false"
+                      },
+                      "options": [
+                        "true",
+                        "false"
+                      ]
+                    }
+                  ]
+                },
+                "out": {
+                  "def": {
+                    "type": "transform"
+                  },
+                  "type": "transform"
+                }
+              },
+              "defaultValue": false
+            },
+            "type": "default"
+          }
+        }
+      },
+      "type": "object"
+    }
+  },
+  "cli": {
+    "command": "companies list",
+    "description": "去重公司列表",
+    "example": "boss companies list --query-id q_20261111_ab12cd"
+  },
+  "mcp": {
+    "name": "boss_list_companies",
+    "description": "岗位结果按公司去重"
+  },
+  "input": {
+    "type": "object",
+    "properties": {
+      "queryId": {
+        "type": "string"
+      },
+      "page": {
+        "default": 1,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 9007199254740991
+      },
+      "pageSize": {
+        "default": 20,
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100
+      },
+      "fetchPages": {
+        "default": 0,
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 5
+      },
+      "refresh": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "true",
+              "false"
+            ]
+          }
+        ]
+      }
+    },
+    "required": [
+      "queryId"
+    ],
+    "$defs": {
+      "CompaniesListQuery": {
+        "type": "object",
+        "properties": {
+          "queryId": {
+            "type": "string"
+          },
+          "page": {
+            "default": 1,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "pageSize": {
+            "default": 20,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "fetchPages": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          },
+          "refresh": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "true",
+                  "false"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "queryId"
+        ]
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "$ref": "#/$defs/SearchQuery"
+      },
+      "companies": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CompanySummary"
+        }
+      },
+      "pagination": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "hasMore": {
+            "type": "boolean"
+          },
+          "pagesFetched": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "pagesAvailable": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "page",
+          "pageSize",
+          "total",
+          "hasMore",
+          "pagesFetched",
+          "pagesAvailable"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "query",
+      "companies",
+      "pagination"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "CompaniesListResponse": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "$ref": "#/$defs/SearchQuery"
+          },
+          "companies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CompanySummary"
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "pageSize": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "total": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "hasMore": {
+                "type": "boolean"
+              },
+              "pagesFetched": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "pagesAvailable": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "page",
+              "pageSize",
+              "total",
+              "hasMore",
+              "pagesFetched",
+              "pagesAvailable"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "query",
+          "companies",
+          "pagination"
+        ],
+        "additionalProperties": false
+      },
+      "SearchQuery": {
+        "type": "object",
+        "properties": {
+          "queryId": {
+            "$ref": "#/$defs/QueryId"
+          },
+          "keyword": {
+            "type": "string"
+          },
+          "cityCode": {
+            "$ref": "#/$defs/CityCode"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "pagesFetched": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "resCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "totalCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "hasMore": {
+            "type": "boolean"
+          },
+          "fetchedAt": {
+            "$ref": "#/$defs/IsoDateTime"
+          }
+        },
+        "required": [
+          "queryId",
+          "keyword",
+          "cityCode",
+          "pageSize",
+          "pagesFetched",
+          "resCount",
+          "totalCount",
+          "hasMore",
+          "fetchedAt"
+        ],
+        "additionalProperties": false
+      },
+      "QueryId": {
+        "type": "string",
+        "pattern": "^q_\\d{8}_[a-z0-9]{4,16}$",
+        "description": "搜索查询 ID"
+      },
+      "CityCode": {
+        "type": "string",
+        "pattern": "^\\d{6,12}$",
+        "description": "BOSS 数字城市码，如 101090100（石家庄）"
+      },
+      "IsoDateTime": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?(?:Z|[+-]\\d{2}:\\d{2})$",
+        "description": "ISO-8601 日期时间（含时区）"
+      },
+      "CompanySummary": {
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "$ref": "#/$defs/CompanyId"
+          },
+          "name": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "scale": {
+            "type": "string"
+          },
+          "stage": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "jobCount": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "matchedJobs": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/JobBrief"
+            }
+          },
+          "firstSeenAt": {
+            "$ref": "#/$defs/IsoDateTime"
+          },
+          "lastSeenAt": {
+            "$ref": "#/$defs/IsoDateTime"
+          }
+        },
+        "required": [
+          "companyId",
+          "name",
+          "jobCount",
+          "matchedJobs",
+          "firstSeenAt",
+          "lastSeenAt"
+        ],
+        "additionalProperties": false
+      },
+      "CompanyId": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_~.-]{4,160}$",
+        "description": "encryptBrandId，用于 /gongsi/<id>.html"
+      },
+      "JobBrief": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "$ref": "#/$defs/JobId"
+          },
+          "title": {
+            "type": "string"
+          },
+          "salaryText": {
+            "default": "",
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "bossName": {
+            "type": "string"
+          },
+          "bossTitle": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jobId",
+          "title",
+          "salaryText"
+        ],
+        "additionalProperties": false
+      },
+      "JobId": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_-]{8,80}$",
+        "description": "encryptJobId，用于 /job_detail/<id>.html"
+      }
+    }
+  }
+}

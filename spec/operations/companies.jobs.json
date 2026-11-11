@@ -1,0 +1,334 @@
+{
+  "operationId": "companies.jobs",
+  "summary": "公司全部在招职位",
+  "auth": "bearer",
+  "rest": {
+    "method": "GET",
+    "path": "/v1/companies/{companyId}/jobs",
+    "pathParams": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "companyId": {
+            "def": {
+              "type": "string",
+              "checks": [
+                {}
+              ]
+            },
+            "type": "string"
+          }
+        }
+      },
+      "type": "object"
+    },
+    "query": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "refresh": {
+            "def": {
+              "type": "default",
+              "innerType": {
+                "def": {
+                  "type": "pipe",
+                  "in": {
+                    "def": {
+                      "type": "union",
+                      "options": [
+                        {
+                          "def": {
+                            "type": "boolean"
+                          },
+                          "type": "boolean"
+                        },
+                        {
+                          "def": {
+                            "type": "enum",
+                            "entries": {
+                              "true": "true",
+                              "false": "false"
+                            }
+                          },
+                          "type": "enum",
+                          "enum": {
+                            "true": "true",
+                            "false": "false"
+                          },
+                          "options": [
+                            "true",
+                            "false"
+                          ]
+                        }
+                      ]
+                    },
+                    "type": "union",
+                    "options": [
+                      {
+                        "def": {
+                          "type": "boolean"
+                        },
+                        "type": "boolean"
+                      },
+                      {
+                        "def": {
+                          "type": "enum",
+                          "entries": {
+                            "true": "true",
+                            "false": "false"
+                          }
+                        },
+                        "type": "enum",
+                        "enum": {
+                          "true": "true",
+                          "false": "false"
+                        },
+                        "options": [
+                          "true",
+                          "false"
+                        ]
+                      }
+                    ]
+                  },
+                  "out": {
+                    "def": {
+                      "type": "transform"
+                    },
+                    "type": "transform"
+                  }
+                },
+                "type": "pipe",
+                "in": {
+                  "def": {
+                    "type": "union",
+                    "options": [
+                      {
+                        "def": {
+                          "type": "boolean"
+                        },
+                        "type": "boolean"
+                      },
+                      {
+                        "def": {
+                          "type": "enum",
+                          "entries": {
+                            "true": "true",
+                            "false": "false"
+                          }
+                        },
+                        "type": "enum",
+                        "enum": {
+                          "true": "true",
+                          "false": "false"
+                        },
+                        "options": [
+                          "true",
+                          "false"
+                        ]
+                      }
+                    ]
+                  },
+                  "type": "union",
+                  "options": [
+                    {
+                      "def": {
+                        "type": "boolean"
+                      },
+                      "type": "boolean"
+                    },
+                    {
+                      "def": {
+                        "type": "enum",
+                        "entries": {
+                          "true": "true",
+                          "false": "false"
+                        }
+                      },
+                      "type": "enum",
+                      "enum": {
+                        "true": "true",
+                        "false": "false"
+                      },
+                      "options": [
+                        "true",
+                        "false"
+                      ]
+                    }
+                  ]
+                },
+                "out": {
+                  "def": {
+                    "type": "transform"
+                  },
+                  "type": "transform"
+                }
+              },
+              "defaultValue": false
+            },
+            "type": "default"
+          }
+        }
+      },
+      "type": "object"
+    }
+  },
+  "cli": {
+    "command": "companies jobs",
+    "description": "公司全部在招职位",
+    "example": "boss companies jobs --id d6c1..."
+  },
+  "mcp": {
+    "name": "boss_company_jobs",
+    "description": "公司全部在招职位"
+  },
+  "input": {
+    "type": "object",
+    "properties": {
+      "companyId": {
+        "$ref": "#/$defs/CompanyId"
+      },
+      "refresh": {
+        "default": false,
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "companyId"
+    ],
+    "$defs": {
+      "CompanyId": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_~.-]{4,160}$",
+        "description": "encryptBrandId，用于 /gongsi/<id>.html"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "companyId": {
+        "$ref": "#/$defs/CompanyId"
+      },
+      "jobCount": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "jobs": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CompanyJob"
+        }
+      },
+      "truncated": {
+        "default": false,
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "companyId",
+      "jobCount",
+      "jobs",
+      "truncated"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "CompanyJobsResponse": {
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "$ref": "#/$defs/CompanyId"
+          },
+          "jobCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CompanyJob"
+            }
+          },
+          "truncated": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "companyId",
+          "jobCount",
+          "jobs",
+          "truncated"
+        ],
+        "additionalProperties": false
+      },
+      "CompanyId": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_~.-]{4,160}$",
+        "description": "encryptBrandId，用于 /gongsi/<id>.html"
+      },
+      "CompanyJob": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "$ref": "#/$defs/JobId"
+          },
+          "securityId": {
+            "$ref": "#/$defs/SecurityId"
+          },
+          "title": {
+            "type": "string"
+          },
+          "salaryText": {
+            "default": "",
+            "type": "string"
+          },
+          "experience": {
+            "type": "string"
+          },
+          "degree": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "businessDistrict": {
+            "type": "string"
+          },
+          "recruiterName": {
+            "type": "string"
+          },
+          "recruiterTitle": {
+            "type": "string"
+          },
+          "jobUrl": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "jobId",
+          "title",
+          "salaryText",
+          "jobUrl"
+        ],
+        "additionalProperties": false
+      },
+      "JobId": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_-]{8,80}$",
+        "description": "encryptJobId，用于 /job_detail/<id>.html"
+      },
+      "SecurityId": {
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 4096,
+        "description": "岗位详情 API 的 securityId（短时效）"
+      }
+    }
+  }
+}

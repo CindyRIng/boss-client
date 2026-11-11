@@ -1,0 +1,571 @@
+{
+  "operationId": "companies.detail",
+  "summary": "公司详情（含工商信息）",
+  "auth": "bearer",
+  "rest": {
+    "method": "GET",
+    "path": "/v1/companies/{companyId}",
+    "pathParams": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "companyId": {
+            "def": {
+              "type": "string",
+              "checks": [
+                {}
+              ]
+            },
+            "type": "string"
+          }
+        }
+      },
+      "type": "object"
+    },
+    "query": {
+      "def": {
+        "type": "object",
+        "shape": {
+          "refresh": {
+            "def": {
+              "type": "default",
+              "innerType": {
+                "def": {
+                  "type": "pipe",
+                  "in": {
+                    "def": {
+                      "type": "union",
+                      "options": [
+                        {
+                          "def": {
+                            "type": "boolean"
+                          },
+                          "type": "boolean"
+                        },
+                        {
+                          "def": {
+                            "type": "enum",
+                            "entries": {
+                              "true": "true",
+                              "false": "false"
+                            }
+                          },
+                          "type": "enum",
+                          "enum": {
+                            "true": "true",
+                            "false": "false"
+                          },
+                          "options": [
+                            "true",
+                            "false"
+                          ]
+                        }
+                      ]
+                    },
+                    "type": "union",
+                    "options": [
+                      {
+                        "def": {
+                          "type": "boolean"
+                        },
+                        "type": "boolean"
+                      },
+                      {
+                        "def": {
+                          "type": "enum",
+                          "entries": {
+                            "true": "true",
+                            "false": "false"
+                          }
+                        },
+                        "type": "enum",
+                        "enum": {
+                          "true": "true",
+                          "false": "false"
+                        },
+                        "options": [
+                          "true",
+                          "false"
+                        ]
+                      }
+                    ]
+                  },
+                  "out": {
+                    "def": {
+                      "type": "transform"
+                    },
+                    "type": "transform"
+                  }
+                },
+                "type": "pipe",
+                "in": {
+                  "def": {
+                    "type": "union",
+                    "options": [
+                      {
+                        "def": {
+                          "type": "boolean"
+                        },
+                        "type": "boolean"
+                      },
+                      {
+                        "def": {
+                          "type": "enum",
+                          "entries": {
+                            "true": "true",
+                            "false": "false"
+                          }
+                        },
+                        "type": "enum",
+                        "enum": {
+                          "true": "true",
+                          "false": "false"
+                        },
+                        "options": [
+                          "true",
+                          "false"
+                        ]
+                      }
+                    ]
+                  },
+                  "type": "union",
+                  "options": [
+                    {
+                      "def": {
+                        "type": "boolean"
+                      },
+                      "type": "boolean"
+                    },
+                    {
+                      "def": {
+                        "type": "enum",
+                        "entries": {
+                          "true": "true",
+                          "false": "false"
+                        }
+                      },
+                      "type": "enum",
+                      "enum": {
+                        "true": "true",
+                        "false": "false"
+                      },
+                      "options": [
+                        "true",
+                        "false"
+                      ]
+                    }
+                  ]
+                },
+                "out": {
+                  "def": {
+                    "type": "transform"
+                  },
+                  "type": "transform"
+                }
+              },
+              "defaultValue": false
+            },
+            "type": "default"
+          }
+        }
+      },
+      "type": "object"
+    }
+  },
+  "cli": {
+    "command": "companies detail",
+    "description": "公司详情（含工商信息）",
+    "example": "boss companies detail --id d6c1..."
+  },
+  "mcp": {
+    "name": "boss_company_detail",
+    "description": "公司详情（含工商信息）"
+  },
+  "input": {
+    "type": "object",
+    "properties": {
+      "companyId": {
+        "$ref": "#/$defs/CompanyId"
+      },
+      "refresh": {
+        "default": false,
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "companyId"
+    ],
+    "$defs": {
+      "CompanyId": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_~.-]{4,160}$",
+        "description": "encryptBrandId，用于 /gongsi/<id>.html"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "properties": {
+      "companyId": {
+        "$ref": "#/$defs/CompanyId"
+      },
+      "name": {
+        "type": "string"
+      },
+      "fullName": {
+        "type": "string"
+      },
+      "logo": {
+        "type": "string"
+      },
+      "industry": {
+        "type": "string"
+      },
+      "scale": {
+        "type": "string"
+      },
+      "stage": {
+        "type": "string"
+      },
+      "cityName": {
+        "type": "string"
+      },
+      "address": {
+        "type": "string"
+      },
+      "intro": {
+        "type": "string"
+      },
+      "tags": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "benefits": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "jobCount": {
+        "default": 0,
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "bossCount": {
+        "default": 0,
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "hotJobs": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/CompanyJob"
+        }
+      },
+      "recruiters": {
+        "default": [],
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "online": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "business": {
+        "default": {
+          "usccSource": "boss_company_page_text",
+          "textDerived": true
+        },
+        "$ref": "#/$defs/BusinessInfo"
+      },
+      "url": {
+        "type": "string",
+        "format": "uri"
+      },
+      "fetchedAt": {
+        "$ref": "#/$defs/IsoDateTime"
+      }
+    },
+    "required": [
+      "companyId",
+      "name",
+      "tags",
+      "benefits",
+      "jobCount",
+      "bossCount",
+      "hotJobs",
+      "recruiters",
+      "business",
+      "url",
+      "fetchedAt"
+    ],
+    "additionalProperties": false,
+    "$defs": {
+      "CompanyDetail": {
+        "type": "object",
+        "properties": {
+          "companyId": {
+            "$ref": "#/$defs/CompanyId"
+          },
+          "name": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "logo": {
+            "type": "string"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "scale": {
+            "type": "string"
+          },
+          "stage": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "intro": {
+            "type": "string"
+          },
+          "tags": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "benefits": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "jobCount": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "bossCount": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "hotJobs": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CompanyJob"
+            }
+          },
+          "recruiters": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "online": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "business": {
+            "default": {
+              "usccSource": "boss_company_page_text",
+              "textDerived": true
+            },
+            "$ref": "#/$defs/BusinessInfo"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "fetchedAt": {
+            "$ref": "#/$defs/IsoDateTime"
+          }
+        },
+        "required": [
+          "companyId",
+          "name",
+          "tags",
+          "benefits",
+          "jobCount",
+          "bossCount",
+          "hotJobs",
+          "recruiters",
+          "business",
+          "url",
+          "fetchedAt"
+        ],
+        "additionalProperties": false
+      },
+      "CompanyId": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_~.-]{4,160}$",
+        "description": "encryptBrandId，用于 /gongsi/<id>.html"
+      },
+      "CompanyJob": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "$ref": "#/$defs/JobId"
+          },
+          "securityId": {
+            "$ref": "#/$defs/SecurityId"
+          },
+          "title": {
+            "type": "string"
+          },
+          "salaryText": {
+            "default": "",
+            "type": "string"
+          },
+          "experience": {
+            "type": "string"
+          },
+          "degree": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "businessDistrict": {
+            "type": "string"
+          },
+          "recruiterName": {
+            "type": "string"
+          },
+          "recruiterTitle": {
+            "type": "string"
+          },
+          "jobUrl": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "jobId",
+          "title",
+          "salaryText",
+          "jobUrl"
+        ],
+        "additionalProperties": false
+      },
+      "JobId": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_-]{8,80}$",
+        "description": "encryptJobId，用于 /job_detail/<id>.html"
+      },
+      "SecurityId": {
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 4096,
+        "description": "岗位详情 API 的 securityId（短时效）"
+      },
+      "BusinessInfo": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "type": "string"
+          },
+          "legalRepresentative": {
+            "type": "string"
+          },
+          "foundedAt": {
+            "type": "string"
+          },
+          "companyType": {
+            "type": "string"
+          },
+          "businessStatus": {
+            "type": "string"
+          },
+          "registeredCapital": {
+            "type": "string"
+          },
+          "registeredAddress": {
+            "type": "string"
+          },
+          "businessTerm": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "uscc": {
+            "type": "string"
+          },
+          "approvalDate": {
+            "type": "string"
+          },
+          "registrationAuthority": {
+            "type": "string"
+          },
+          "formerNames": {
+            "type": "string"
+          },
+          "businessScope": {
+            "type": "string"
+          },
+          "usccSource": {
+            "default": "boss_company_page_text",
+            "type": "string",
+            "const": "boss_company_page_text"
+          },
+          "textDerived": {
+            "default": true,
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "usccSource",
+          "textDerived"
+        ],
+        "additionalProperties": false
+      },
+      "IsoDateTime": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?(?:Z|[+-]\\d{2}:\\d{2})$",
+        "description": "ISO-8601 日期时间（含时区）"
+      }
+    }
+  }
+}
