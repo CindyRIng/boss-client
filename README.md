@@ -68,7 +68,7 @@ flowchart TB
 ### 1. 安装
 
 ```bash
-git clone git@github.com:CindyRIng/boss-client.git
+git clone https://github.com/CindyRIng/boss-client.git
 cd boss-client
 npm install
 cp .env.example .env

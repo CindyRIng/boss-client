@@ -18,13 +18,14 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import readline from 'node:readline/promises';
+import os from 'node:os';
 import { launchPersistentContext } from 'cloakbrowser';
 
-const ROOT = '/home/songqian/boss-client';
+const ROOT = process.env.BOSS_EXPLORATION_ROOT ?? path.join(os.homedir(), 'boss-client');
 const EXP = path.join(ROOT, 'exploration/2026-11-11');
 const ART = path.join(EXP, 'artifacts');
-const PROFILE = path.join(process.env.HOME || '/home/songqian', '.boss-client/profile');
-const CRED_FILE = '/home/songqian/fuma-sales-dsh/runtime/credentials/boss.json';
+const PROFILE = path.join(os.homedir(), '.boss-client/profile');
+const CRED_FILE = process.env.BOSS_CRED_FILE ?? path.join(os.homedir(), '.boss-client/credentials.json');
 const LOGIN_URL =
   'https://www.zhipin.com/web/user/?from=passport-zp&fromUrl=https%3A%2F%2Fwww.zhipin.com%2F';
 const HOME = 'https://www.zhipin.com/';
