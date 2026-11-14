@@ -239,39 +239,70 @@ export function renderDocsHtml(): string {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>boss-client API ${SCHEMA_VERSION} · BOSS直聘本地客户端</title>
 <style>
-  :root { color-scheme: light; }
+  :root { color-scheme: light; --ink:#15202b; --muted:#66788a; --line:#dbe4ef; --teal:#0f9d8a; --navy:#08131f; }
   * { box-sizing: border-box; }
-  body { margin:0; font: 14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif; color:#1f2328; background:#fff; }
-  header { position:sticky; top:0; background:#fff; border-bottom:1px solid #d0d7de; padding:14px 24px; z-index:10; }
-  header h1 { font-size:18px; margin:0 0 4px; }
-  header .links a { margin-right:14px; color:#0969da; text-decoration:none; }
-  .layout { display:flex; align-items:flex-start; }
-  nav { width:340px; flex:0 0 340px; position:sticky; top:70px; max-height:calc(100vh - 70px); overflow:auto; border-right:1px solid #d0d7de; padding:14px 12px; }
+  html { scroll-behavior: smooth; }
+  body { margin:0; font: 14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif; color:var(--ink); background:#f2f6fb; }
+  header { position:sticky; top:0; z-index:20; color:#e9f7f3; background:radial-gradient(1100px 320px at 12% -20%,#145b5b 0,transparent 60%),linear-gradient(135deg,#07111c,#0a1c2c 55%,#0d2d35); border-bottom:1px solid rgba(130,230,214,.18); padding:18px 30px 14px; box-shadow:0 8px 30px rgba(7,17,28,.18); }
+  header .brand { display:flex; align-items:center; gap:14px; }
+  header .logo { width:42px; height:42px; border-radius:13px; display:grid; place-items:center; font:800 18px/1 ui-monospace,SFMono-Regular,Menlo,monospace; color:#04151a; background:linear-gradient(135deg,#67efd4,#b9f7e7); box-shadow:0 0 0 1px rgba(255,255,255,.25),0 10px 26px rgba(60,220,196,.25); }
+  header h1 { margin:0; font-size:20px; letter-spacing:.2px; color:#fff; }
+  header h1 span { color:#7dded0; font-weight:500; }
+  header .subtitle { margin-top:2px; color:#9fb9b7; font-size:12px; }
+  header .links { display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; }
+  header .links a { color:#8af0df; text-decoration:none; font-size:12px; border-bottom:1px dotted rgba(138,240,223,.35); }
+  header .links a:hover { color:#fff; border-color:#fff; }
+  header .stats { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  header .pill { border:1px solid rgba(140,240,222,.22); background:rgba(255,255,255,.06); color:#c9f4ec; border-radius:999px; padding:3px 9px; font-size:11px; }
+  .layout { display:flex; align-items:flex-start; max-width:1480px; margin:0 auto; }
+  nav { width:350px; flex:0 0 350px; overflow-x:hidden; position:sticky; top:132px; max-height:calc(100vh - 150px); overflow:auto; padding:22px 12px 22px 18px; }
+  nav strong { display:block; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.12em; margin:0 0 10px 6px; }
   nav ul { list-style:none; margin:0; padding:0; }
-  nav li { margin:4px 0; }
-  nav a { color:#1f2328; text-decoration:none; display:block; padding:4px 6px; border-radius:6px; font-size:12px; }
-  nav a:hover { background:#f6f8fa; }
-  main { flex:1; padding:18px 28px 80px; max-width:1100px; }
-  h2 { margin-top:28px; border-bottom:1px solid #d0d7de; padding-bottom:6px; }
-  h3 { margin:22px 0 6px; }
-  code { background:#f6f8fa; padding:1px 5px; border-radius:4px; font-family: ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; }
-  pre { background:#f6f8fa; padding:12px; border-radius:8px; overflow:auto; font-size:12px; }
-  table { border-collapse:collapse; width:100%; margin:8px 0 14px; font-size:13px; }
-  th,td { border:1px solid #d0d7de; padding:6px 8px; text-align:left; vertical-align:top; }
-  th { background:#f6f8fa; }
-  .muted { color:#59636e; }
-  .meta { font-size:12px; color:#59636e; }
-  .op { border-top:1px dashed #d0d7de; padding-top:8px; }
-  .method { display:inline-block; min-width:52px; text-align:center; padding:1px 6px; border-radius:4px; color:#fff; font-size:11px; font-weight:600; }
-  .method.get { background:#1a7f37; } .method.post { background:#0969da; } .method.delete { background:#cf222e; } .method.put { background:#9a6700; }
-  .note { background:#fff8c5; border:1px solid #d4a72c; border-radius:8px; padding:10px 14px; }
-  details { margin:8px 0; }
-  summary { cursor:pointer; color:#0969da; }
+  nav li { margin:3px 0; }
+  nav a { color:#203243; text-decoration:none; display:flex; align-items:flex-start; gap:8px; padding:5px 8px; border-radius:8px; font-size:12px; min-width:0; }
+  nav a:hover { background:#e7f1f7; color:#075e56; }
+  nav a code { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  main { flex:1; min-width:0; background:#fff; margin:22px 22px 48px 0; border:1px solid var(--line); border-radius:18px; padding:28px 34px 90px; box-shadow:0 18px 50px rgba(32,61,92,.08); }
+  h2 { margin-top:26px; padding-bottom:8px; border-bottom:1px solid var(--line); font-size:21px; letter-spacing:.1px; }
+  h2:first-child { margin-top:0; }
+  h3 { margin:26px 0 8px; font-size:16px; }
+  code { background:#eef4f9; padding:1px 5px; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; color:#17364a; }
+  pre { background:#0b1723; color:#d6eee9; padding:14px 16px; border-radius:12px; overflow:auto; font-size:12px; line-height:1.55; border:1px solid #162b3b; }
+  pre code { background:transparent; color:inherit; padding:0; }
+  table { border-collapse:separate; border-spacing:0; width:100%; margin:10px 0 16px; font-size:13px; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th,td { padding:8px 10px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  th { background:#f4f8fc; color:#3c5266; font-weight:600; white-space:nowrap; }
+  tbody tr:nth-child(even) td { background:#fbfdff; }
+  .muted { color:var(--muted); }
+  .meta { font-size:12px; color:var(--muted); }
+  .op { background:#fcfdff; border:1px solid var(--line); border-radius:14px; padding:16px 18px 14px; margin:18px 0; scroll-margin-top:142px; }
+  .op h3 { margin:0 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .op h3 code { background:#eaf2f8; font-size:12px; }
+  .method { display:inline-block; min-width:52px; text-align:center; padding:2px 7px; border-radius:5px; color:#fff; font-size:11px; font-weight:700; letter-spacing:.02em; }
+  .method.get { background:#168a5b; } .method.post { background:#1d6fd8; } .method.delete { background:#cf3341; } .method.put { background:#a87612; }
+  .note { background:linear-gradient(90deg,#e7faf5,#f7fffc); border:1px solid #a9e6d9; border-left:4px solid #19a98f; border-radius:10px; padding:12px 15px; }
+  details { margin:10px 0; border:1px solid #e3ebf3; border-radius:9px; padding:8px 11px; background:#fbfdff; }
+  summary { cursor:pointer; color:#0b6f9f; font-size:12px; }
+  details pre { margin:10px 0 2px; }
+  @media (max-width: 980px) { header { padding:14px 18px; } header .stats { display:none; } nav { display:none; } main { margin:14px; padding:20px 18px 60px; } }
 </style>
 </head>
 <body>
 <header>
-  <h1>boss-client API <span class="muted">v${VERSION} · schema ${SCHEMA_VERSION}</span></h1>
+  <div class="brand">
+    <div class="logo">B</div>
+    <div>
+      <h1>boss-client <span>API</span></h1>
+      <div class="subtitle">BOSS直聘本地只读客户端 · v${VERSION} · schema ${SCHEMA_VERSION}</div>
+    </div>
+  </div>
+  <div class="stats">
+    <span class="pill">${OPERATIONS.length} operations</span>
+    <span class="pill">127.0.0.1:${PORT}</span>
+    <span class="pill">Bearer auth</span>
+    <span class="pill">read-only</span>
+  </div>
   <div class="links">
     <a href="/openapi.json">OpenAPI 3.1</a>
     <a href="/docs?format=json">文档 JSON</a>
