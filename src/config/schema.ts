@@ -117,7 +117,7 @@ export function loadConfig(opts: LoadConfigOptions = {}): Config {
       ratePerMin: int(env, 'BOSS_RATE_PER_MIN', 12),
       maxPages: int(env, 'BOSS_MAX_PAGES', 5, 1),
       pageDelayMs: int(env, 'BOSS_PAGE_DELAY_MS', 2500),
-      code36CooldownSec: int(env, 'BOSS_CODE36_COOLDOWN_SEC', 1800),
+      code36CooldownSec: int(env, 'BOSS_CODE36_COOLDOWN_SEC', 86400),
       code37CooldownSec: int(env, 'BOSS_CODE37_COOLDOWN_SEC', 60),
       requestTimeoutMs: int(env, 'BOSS_REQUEST_TIMEOUT_MS', 30000, 1000),
       loginTimeoutSec: int(env, 'BOSS_LOGIN_TIMEOUT_SEC', 600, 60),
