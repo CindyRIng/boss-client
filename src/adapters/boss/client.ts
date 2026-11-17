@@ -21,6 +21,8 @@ export interface BossApiConfig {
   timeoutMs: number;
   ratePerMin: number;
   pageJitterMs?: number;
+  code36CooldownSec?: number;
+  code37CooldownSec?: number;
 }
 
 interface RawHttpResult {
@@ -32,7 +34,9 @@ interface RawHttpResult {
 export interface BossRequestStats {
   requests: number;
   lastUpstreamAt?: number;
+  code36Count: number;
   code37Count: number;
+  riskKind?: 'code36' | 'code37';
   cooldownUntil?: number;
   lastError?: string;
 }
@@ -41,9 +45,11 @@ export class PageBossApiClient {
   private readonly limiter: RateLimiter;
   private requests = 0;
   private lastUpstreamAt: number | undefined;
+  private code36Count = 0;
   private code37Count = 0;
   private cooldownUntil: number | undefined;
   private lastError: string | undefined;
+  private riskKind: 'code36' | 'code37' | undefined;
 
   constructor(
     private readonly page: Page,
@@ -56,7 +62,9 @@ export class PageBossApiClient {
     return {
       requests: this.requests,
       ...(this.lastUpstreamAt ? { lastUpstreamAt: this.lastUpstreamAt } : {}),
+      code36Count: this.code36Count,
       code37Count: this.code37Count,
+      ...(this.riskKind ? { riskKind: this.riskKind } : {}),
       ...(this.cooldownUntil ? { cooldownUntil: this.cooldownUntil } : {}),
       ...(this.lastError ? { lastError: this.lastError } : {}),
     };
@@ -69,14 +77,22 @@ export class PageBossApiClient {
   private assertNotCoolingDown(): void {
     const remain = this.remainingCooldownMs();
     if (remain > 0) {
-      throw new BossError('RATE_LIMITED', `BOSS 风控冷却中，请 ${Math.ceil(remain / 1000)}s 后重试`, {
+      const code = this.riskKind === 'code36' ? 'ACCOUNT_RISK' : 'RATE_LIMITED';
+      throw new BossError(code, `BOSS ${this.riskKind === 'code36' ? '账号风控' : '风控'}冷却中，请 ${Math.ceil(remain / 1000)}s 后重试`, {
         retryAfterMs: remain,
       });
     }
   }
 
+  private markCode36(cooldownSec: number): void {
+    this.code36Count++;
+    this.riskKind = 'code36';
+    this.cooldownUntil = Date.now() + Math.max(1, cooldownSec) * 1000;
+  }
+
   private markCode37(cooldownSec: number): void {
     this.code37Count++;
+    this.riskKind = 'code37';
     this.cooldownUntil = Date.now() + Math.max(1, cooldownSec) * 1000;
   }
 
@@ -168,8 +184,15 @@ export class PageBossApiClient {
     } catch (err) {
       const e = err instanceof BossError ? err : new BossError('UPSTREAM_UNAVAILABLE', String(err), { cause: err });
       this.lastError = e.message;
+      if (e.code === 'ACCOUNT_RISK') {
+        this.markCode36(this.cfg.code36CooldownSec ?? 1800);
+        throw new BossError('ACCOUNT_RISK', e.message, {
+          retryAfterMs: this.remainingCooldownMs(),
+          details: { ...(e.details ?? {}), cooldownUntil: this.cooldownUntil },
+        });
+      }
       if (e.code === 'UPSTREAM_BLOCKED') {
-        this.markCode37(60);
+        this.markCode37(this.cfg.code37CooldownSec ?? 60);
         throw new BossError('UPSTREAM_BLOCKED', e.message, {
           details: { ...(e.details ?? {}), cooldownUntil: this.cooldownUntil },
         });

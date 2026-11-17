@@ -117,6 +117,8 @@ export class DefaultSessionManager implements SessionManager {
         timeoutMs: this.cfg.session.requestTimeoutMs,
         ratePerMin: this.cfg.session.ratePerMin,
         pageJitterMs: 300,
+        code36CooldownSec: this.cfg.session.code36CooldownSec,
+        code37CooldownSec: this.cfg.session.code37CooldownSec,
       });
       this.startedAt = Date.now();
       const loggedIn = await this.isLoggedIn().catch(() => false);
@@ -158,7 +160,7 @@ export class DefaultSessionManager implements SessionManager {
   }
 
   requestStats(): BossRequestStats {
-    return this.api?.stats() ?? { requests: 0, code37Count: 0 };
+    return this.api?.stats() ?? { requests: 0, code36Count: 0, code37Count: 0 };
   }
 
   snapshot(): { loggedIn: boolean; health: HealthValue; browserConnected: boolean } {
@@ -185,7 +187,7 @@ export class DefaultSessionManager implements SessionManager {
         health: 'stopped',
         account: {},
         session: { profileDir },
-        risk: { code37Count: 0 },
+        risk: { code36Count: 0, code37Count: 0 },
         requests: { today: 0, cacheHits: 0, cacheMisses: 0 },
         warnings: [],
         message: '浏览器会话未启动：请执行 `boss login`',
@@ -200,7 +202,9 @@ export class DefaultSessionManager implements SessionManager {
     if (session.remainingSec !== undefined && session.remainingSec < 24 * 3600) {
       warnings.push('session_expiring_soon');
     }
-    if (riskStats.cooldownUntil && riskStats.cooldownUntil > Date.now()) warnings.push('upstream_cooldown');
+    if (riskStats.cooldownUntil && riskStats.cooldownUntil > Date.now()) {
+      warnings.push(riskStats.riskKind === 'code36' ? 'account_risk' : 'upstream_cooldown');
+    }
     let health: HealthValue;
     if (riskStats.cooldownUntil && riskStats.cooldownUntil > Date.now()) health = 'cooldown';
     else if (!loggedIn) health = this.login ? 'needs_human' : 'logged_out';
@@ -219,7 +223,9 @@ export class DefaultSessionManager implements SessionManager {
       session: { profileDir, ...(this.startedAt ? { startedAt: new Date(this.startedAt).toISOString() } : {}), ...(this.lastCheckedAt ? { lastCheckedAt: new Date(this.lastCheckedAt).toISOString() } : {}), ...session },
       risk: {
         ...(riskStats.cooldownUntil ? { cooldownUntil: new Date(riskStats.cooldownUntil).toISOString() } : {}),
+        code36Count: riskStats.code36Count,
         code37Count: riskStats.code37Count,
+        ...(riskStats.riskKind ? { riskKind: riskStats.riskKind } : {}),
         ...(riskStats.lastError ? { lastError: riskStats.lastError } : {}),
       },
       requests: {
@@ -540,6 +546,9 @@ export class DefaultSessionManager implements SessionManager {
     if (this.heartbeatTimer) return;
     const interval = Math.max(30, this.cfg.session.heartbeatSec) * 1000;
     this.heartbeatTimer = setInterval(() => {
+      const stats = this.api?.stats();
+      // 风控冷却期间不发任何上游请求，避免把临时限制拖成账号级限制
+      if (stats?.cooldownUntil && stats.cooldownUntil > Date.now()) return;
       this.status()
         .then((s) => this.logger?.debug('session.heartbeat', { health: s.health, loggedIn: s.loggedIn }))
         .catch(() => {});

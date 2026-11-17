@@ -54,10 +54,12 @@ export const StatusSchema = z
     risk: z
       .object({
         cooldownUntil: IsoDateTimeSchema.nullable().optional(),
+        code36Count: z.number().int().nonnegative(),
         code37Count: z.number().int().nonnegative(),
+        riskKind: z.enum(['code36', 'code37']).optional(),
         lastError: z.string().nullable().optional(),
       })
-      .default({ code37Count: 0 }),
+      .default({ code36Count: 0, code37Count: 0 }),
     requests: z
       .object({
         today: z.number().int().nonnegative(),

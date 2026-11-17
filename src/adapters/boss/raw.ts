@@ -136,6 +136,11 @@ export function assertBossEnvelope(raw: unknown, label: string): RawBossEnvelope
     throw new BossError('UPSTREAM_CHANGED', `BOSS ${label} 响应不是预期 envelope`, { details: { issues: parsed.error.issues } });
   }
   const code = Number(parsed.data.code);
+  if (code === 36) {
+    throw new BossError('ACCOUNT_RISK', `BOSS ${label} 返回 code36（账号异常行为/风控）`, {
+      details: { code: 36, message: parsed.data.message ?? parsed.data.msg ?? '' },
+    });
+  }
   if (code === 37) {
     throw new BossError('UPSTREAM_BLOCKED', `BOSS ${label} 返回 code37 环境异常`, {
       details: { code: 37, message: parsed.data.message ?? parsed.data.msg ?? '' },

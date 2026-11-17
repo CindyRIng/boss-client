@@ -54,6 +54,7 @@
     },
     "risk": {
       "default": {
+        "code36Count": 0,
         "code37Count": 0
       },
       "type": "object",
@@ -68,10 +69,22 @@
             }
           ]
         },
+        "code36Count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
         "code37Count": {
           "type": "integer",
           "minimum": 0,
           "maximum": 9007199254740991
+        },
+        "riskKind": {
+          "type": "string",
+          "enum": [
+            "code36",
+            "code37"
+          ]
         },
         "lastError": {
           "type": [
@@ -81,6 +94,7 @@
         }
       },
       "required": [
+        "code36Count",
         "code37Count"
       ],
       "additionalProperties": false
@@ -225,6 +239,7 @@
         },
         "risk": {
           "default": {
+            "code36Count": 0,
             "code37Count": 0
           },
           "type": "object",
@@ -239,10 +254,22 @@
                 }
               ]
             },
+            "code36Count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
             "code37Count": {
               "type": "integer",
               "minimum": 0,
               "maximum": 9007199254740991
+            },
+            "riskKind": {
+              "type": "string",
+              "enum": [
+                "code36",
+                "code37"
+              ]
             },
             "lastError": {
               "type": [
@@ -252,6 +279,7 @@
             }
           },
           "required": [
+            "code36Count",
             "code37Count"
           ],
           "additionalProperties": false

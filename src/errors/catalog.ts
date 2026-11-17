@@ -34,6 +34,7 @@ export const ERROR_CATALOG = {
   VALIDATION_FAILED: { http: 422, retryable: false, title: '校验失败', description: '请求参数 JSON Schema 校验未通过，details 内给出字段级问题' },
   RATE_LIMITED: { http: 429, retryable: true, title: '限频', description: '触发本地限频或上游限流，按 retryAfterMs 退避' },
   TIMEOUT: { http: 504, retryable: true, title: '上游超时', description: 'BOSS 页面/接口响应超时' },
+  ACCOUNT_RISK: { http: 403, retryable: false, title: '账号风控', description: 'BOSS 返回 code36（账号异常行为/headless 检测）；停止自动请求，人工完成安全验证后再试' },
   UPSTREAM_BLOCKED: { http: 502, retryable: false, title: '上游风控拦截', description: 'BOSS 返回 code37 / 环境异常，进入冷却后重试' },
   UPSTREAM_CHANGED: { http: 502, retryable: false, title: '上游改版', description: 'BOSS 页面结构/接口字段变化导致解析失败' },
   UPSTREAM_UNAVAILABLE: { http: 503, retryable: true, title: '上游不可用', description: '网络异常/BOSS 服务不可达' },
